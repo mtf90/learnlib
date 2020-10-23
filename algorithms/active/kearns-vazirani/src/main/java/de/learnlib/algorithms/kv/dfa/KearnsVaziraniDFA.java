@@ -54,13 +54,13 @@ import net.automatalib.words.impl.Alphabets;
 public class KearnsVaziraniDFA<I>
         implements DFALearner<I>, SupportsGrowingAlphabet<I>, Resumable<KearnsVaziraniDFAState<I>> {
 
-    private final Alphabet<I> alphabet;
+    protected final Alphabet<I> alphabet;
     private final MembershipOracle<I, Boolean> oracle;
     private final boolean repeatedCounterexampleEvaluation;
     private final AcexAnalyzer ceAnalyzer;
     protected BinaryDTree<I, StateInfo<I, Boolean>> discriminationTree;
     protected List<StateInfo<I, Boolean>> stateInfos = new ArrayList<>();
-    private CompactDFA<I> hypothesis;
+    protected CompactDFA<I> hypothesis;
 
     /**
      * Constructor.
@@ -254,12 +254,12 @@ public class KearnsVaziraniDFA<I>
         }
     }
 
-    private void setTransition(int state, int symIdx, StateInfo<I, Boolean> succInfo) {
+    protected void setTransition(int state, int symIdx, StateInfo<I, Boolean> succInfo) {
         succInfo.addIncoming(state, symIdx);
         hypothesis.setTransition(state, symIdx, succInfo.id);
     }
 
-    private List<StateInfo<I, Boolean>> sift(List<Word<I>> prefixes) {
+    protected List<StateInfo<I, Boolean>> sift(List<Word<I>> prefixes) {
         return sift(Collections.nCopies(prefixes.size(), discriminationTree.getRoot()), prefixes);
     }
 

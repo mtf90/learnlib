@@ -82,8 +82,8 @@ public class HTransition<I, O, SP, TP> implements Serializable {
     }
 
     public void setDT(AbstractWordBasedDTNode<I, O, HState<I, O, SP, TP>> dtNode) {
-        assert !isTree();
         this.dt = dtNode;
+        this.treeTgt = null;
     }
 
     public void makeTree(HState<I, O, SP, TP> treeTgt) {

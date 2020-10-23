@@ -49,12 +49,24 @@ public final class StateInfo<I, D> implements Serializable {
     }
 
     public void addIncoming(int sourceState, int transIdx) {
-        long encodedTrans = ((long) sourceState << Integer.SIZE) | transIdx;
+        long encodedTrans = encodeTransition(sourceState, transIdx);
         if (incoming == null) {
             //incoming = new TLongArrayList();
             incoming = new ArrayList<>(); // TODO: replace with primitive specialization
         }
         incoming.add(encodedTrans);
+    }
+
+    public void removeIncoming(int sourceState, int transIdx) {
+        if (incoming == null) {
+            return;
+        }
+        long encodedTrans = encodeTransition(sourceState, transIdx);
+        incoming.remove(encodedTrans);
+    }
+
+    private static long encodeTransition(int sourceState, int transIdx) {
+        return ((long) sourceState << Integer.SIZE) | transIdx;
     }
 
     //public TLongList fetchIncoming() {

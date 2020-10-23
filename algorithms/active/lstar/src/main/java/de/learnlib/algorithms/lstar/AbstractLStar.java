@@ -234,5 +234,10 @@ public abstract class AbstractLStar<A, I, D>
 
         final List<List<Row<I>>> unclosed = this.table.addAlphabetSymbol(symbol, oracle);
         completeConsistentTable(unclosed, true);
+
+        Row<I> unclosedRow;
+        while ((unclosedRow = this.table.findUnclosedRow()) != null) {
+            completeConsistentTable(Collections.singletonList(Collections.singletonList(unclosedRow)), true);
+        }
     }
 }

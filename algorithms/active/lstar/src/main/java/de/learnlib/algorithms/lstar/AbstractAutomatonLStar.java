@@ -92,6 +92,8 @@ public abstract class AbstractAutomatonLStar<A, I, D, S, T, SP, TP, AI extends M
             throw new IllegalStateException("Cannot update internal hypothesis: not initialized");
         }
 
+        internalHyp.clear();
+        stateInfos.clear();
         int oldStates = internalHyp.size();
         int numDistinct = table.numberOfDistinctRows();
 
@@ -119,6 +121,12 @@ public abstract class AbstractAutomatonLStar<A, I, D, S, T, SP, TP, AI extends M
 
         // SECOND PASS: Create hypothesis transitions
         for (StateInfo<S, I> info : stateInfos) {
+
+            // if we have discovered a sink, but due edge re-evaluation this no longer is a reachable state, skip this hole.
+            if (info == null) {
+                continue;
+            }
+
             Row<I> sp = info.getRow();
             S state = info.getState();
 

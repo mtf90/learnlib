@@ -58,13 +58,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class KearnsVaziraniMealy<I, O>
         implements MealyLearner<I, O>, SupportsGrowingAlphabet<I>, Resumable<KearnsVaziraniMealyState<I, O>> {
 
-    private final Alphabet<I> alphabet;
+    protected final Alphabet<I> alphabet;
     private final MembershipOracle<I, Word<O>> oracle;
     private final boolean repeatedCounterexampleEvaluation;
     private final AcexAnalyzer ceAnalyzer;
     protected MultiDTree<I, Word<O>, StateInfo<I, Word<O>>> discriminationTree;
     protected List<StateInfo<I, Word<O>>> stateInfos = new ArrayList<>();
-    private CompactMealy<I, O> hypothesis;
+    protected CompactMealy<I, O> hypothesis;
 
     @GenerateBuilder
     public KearnsVaziraniMealy(Alphabet<I> alphabet,
@@ -274,12 +274,12 @@ public class KearnsVaziraniMealy<I, O>
         }
     }
 
-    private void setTransition(int state, int symIdx, StateInfo<I, Word<O>> succInfo, O output) {
+    protected void setTransition(int state, int symIdx, StateInfo<I, Word<O>> succInfo, O output) {
         succInfo.addIncoming(state, symIdx);
         hypothesis.setTransition(state, symIdx, succInfo.id, output);
     }
 
-    private List<StateInfo<I, Word<O>>> sift(List<Word<I>> prefixes) {
+    protected List<StateInfo<I, Word<O>>> sift(List<Word<I>> prefixes) {
         return sift(Collections.nCopies(prefixes.size(), discriminationTree.getRoot()), prefixes);
     }
 

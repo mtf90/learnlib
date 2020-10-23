@@ -604,4 +604,35 @@ public final class GenericObservationTable<I, D> implements MutableObservationTa
     public Collection<Row<I>> getLongPrefixRows() {
         return Collections.unmodifiableList(longPrefixRows);
     }
+
+    public List<List<Row<I>>> reevaluateRows(Collection<I> edgeLabels, MembershipOracle<I, D> oracle) {
+        final List<RowImpl<I>> rowsToUpdate = new ArrayList<>();
+
+        for (RowImpl<I> row : allRows) {
+            for (I i : row.getLabel()) {
+                if (edgeLabels.contains(i)) {
+                    rowsToUpdate.add(row);
+                }
+            }
+        }
+
+        final List<DefaultQuery<I, D>> queries = new ArrayList<>(rowsToUpdate.size() * suffixes.size());
+
+        buildRowQueries(queries, rowsToUpdate, suffixes);
+
+        oracle.processQueries(queries);
+        final Iterator<DefaultQuery<I, D>> queryIt = queries.iterator();
+
+        final List<List<Row<I>>> newRows = new ArrayList<>();
+
+        for (RowImpl<I> row : rowsToUpdate) {
+            List<D> contents = new ArrayList<>(suffixes.size());
+            fetchResults(queryIt, contents, suffixes.size());
+            if (processContents(row, contents, row.isShortPrefixRow())) {
+                newRows.add(Collections.singletonList(row));
+            }
+        }
+
+        return newRows;
+    }
 }

@@ -63,7 +63,8 @@ public class TTTTransition<I, D> extends IntrusiveListElemImpl<TTTTransition<I, 
         return nonTreeTarget;
     }
 
-    void setNonTreeTarget(AbstractBaseDTNode<I, D> nonTreeTarget) {
+    public void setNonTreeTarget(AbstractBaseDTNode<I, D> nonTreeTarget) {
+        this.treeTarget = null;
         this.nonTreeTarget = nonTreeTarget;
         nonTreeTarget.getIncoming().insertIncoming(this);
     }
@@ -113,7 +114,7 @@ public class TTTTransition<I, D> extends IntrusiveListElemImpl<TTTTransition<I, 
         return wb.reverse().toWord();
     }
 
-    void makeTree(TTTState<I, D> treeTarget) {
+    public void makeTree(TTTState<I, D> treeTarget) {
         removeFromList();
         this.treeTarget = treeTarget;
         this.nonTreeTarget = null;

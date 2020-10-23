@@ -93,6 +93,7 @@ public class ExtensibleLStarMealy<I, O>
     }
 
     protected void updateOutputs() {
+        outputTable.clear();
         int numOutputs = outputTable.size();
         int numTransRows = table.numberOfRows() - 1;
 

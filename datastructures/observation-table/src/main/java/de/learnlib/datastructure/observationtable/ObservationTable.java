@@ -16,12 +16,14 @@
 package de.learnlib.datastructure.observationtable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import de.learnlib.api.AccessSequenceTransformer;
+import net.automatalib.commons.smartcollections.ArrayStorage;
 import net.automatalib.words.Alphabet;
 import net.automatalib.words.Word;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -199,6 +201,38 @@ public interface ObservationTable<I, D> extends AccessSequenceTransformer<I> {
         }
 
         return null;
+    }
+
+    default List<List<Row<I>>> findUnclosedRows() {
+        final int distinctRows = numberOfDistinctRows();
+        final boolean[] spContents = new boolean[distinctRows];
+        final int[] eqIndexes = new int[distinctRows];
+        Arrays.fill(eqIndexes, -1);
+
+        for (Row<I> spRow : getShortPrefixRows()) {
+            spContents[spRow.getRowContentId()] = true;
+        }
+
+        final List<List<Row<I>>> result = new ArrayList<>(distinctRows);
+
+        for (Row<I> lpRow : getLongPrefixRows()) {
+            final int contentId = lpRow.getRowContentId();
+            if (!spContents[contentId]) { // unclosed row
+                final List<Row<I>> representatives;
+
+                if (eqIndexes[contentId] == -1) { // with new equivalence class
+                    eqIndexes[contentId] = result.size();
+                    representatives = new ArrayList<>();
+                    result.add(representatives);
+                } else {
+                    representatives = result.get(eqIndexes[contentId]);
+                }
+
+                representatives.add(lpRow);
+            }
+        }
+
+        return result;
     }
 
     default @Nullable Word<I> findDistinguishingSuffix(Inconsistency<I> inconsistency) {

@@ -110,6 +110,10 @@ public class HState<I, O, SP, TP> implements Serializable {
         nonTreeIncoming.add(trans);
     }
 
+    public void removeNonTreeIncoming(HTransition<I, O, SP, TP> trans) {
+        nonTreeIncoming.remove(trans);
+    }
+
     public void fetchNonTreeIncoming(Collection<? super HTransition<I, O, SP, TP>> target) {
         target.addAll(nonTreeIncoming);
         nonTreeIncoming.clear();

@@ -798,7 +798,7 @@ public abstract class AbstractTTTLearner<A, I, D>
         return result;
     }
 
-    private void addNewStates(UnorderedCollection<AbstractBaseDTNode<I, D>> newStateNodes) {
+    protected void addNewStates(UnorderedCollection<AbstractBaseDTNode<I, D>> newStateNodes) {
         AbstractBaseDTNode<I, D> minTransNode = null;
         TTTTransition<I, D> minTrans = null;
         int minAsLen = Integer.MAX_VALUE;
