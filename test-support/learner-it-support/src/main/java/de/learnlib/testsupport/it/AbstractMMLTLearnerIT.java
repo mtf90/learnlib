@@ -42,7 +42,7 @@ public abstract class AbstractMMLTLearnerIT {
     public Object[] createExampleITCases() {
         final List<MMLTLearningExample<?, ?>> examples = LearningExamples.createMMLTExamples();
         final List<MMLTLearningExample<?, ?>> extras = getAdditionalLearningExamples();
-        final List<AbstractLearnerVariantITCase<?, ?, ?>> result = new ArrayList<>();
+        final List<AbstractLearnerVariantITCase<?, ?, ?, ?>> result = new ArrayList<>();
 
         for (MMLTLearningExample<?, ?> example : examples) {
             result.addAll(createAllVariantsITCase(example));

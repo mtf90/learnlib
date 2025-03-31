@@ -26,9 +26,13 @@ import net.automatalib.automaton.mmlt.MMLT;
 import net.automatalib.automaton.procedural.SBA;
 import net.automatalib.automaton.procedural.SPA;
 import net.automatalib.automaton.procedural.SPMM;
+import net.automatalib.automaton.ra.RegisterAutomaton;
+import net.automatalib.automaton.ra.RegisterMealyMachine;
 import net.automatalib.automaton.transducer.MealyMachine;
 import net.automatalib.automaton.transducer.MooreMachine;
 import net.automatalib.automaton.vpa.OneSEVPA;
+import net.automatalib.symbol.data.ParameterizedSymbol;
+import net.automatalib.symbol.data.SymbolInstance;
 import net.automatalib.symbol.time.TimedInput;
 import net.automatalib.symbol.time.TimedOutput;
 import net.automatalib.word.Word;
@@ -77,6 +81,14 @@ public class LearnerVariantListImpl<M, I, D> implements LearnerVariantList<M, I,
 
     public static class SPMMLearnerVariantListImpl<I, O> extends LearnerVariantListImpl<SPMM<?, I, ?, O>, I, Word<O>>
             implements SPMMLearnerVariantList<I, O> {}
+
+    public static class RALearnerVariantListImpl<I extends ParameterizedSymbol>
+            extends LearnerVariantListImpl<RegisterAutomaton<?, I, ?>, SymbolInstance<I>, Boolean>
+            implements RALearnerVariantList<I> {}
+
+    public static class RMMLearnerVariantListImpl<I extends ParameterizedSymbol, O extends ParameterizedSymbol>
+            extends LearnerVariantListImpl<RegisterMealyMachine<?, I, ?, O>, SymbolInstance<I>, Word<SymbolInstance<O>>>
+            implements RMMLearnerVariantList<I, O> {}
 
     public static class MealySymLearnerVariantListImpl<I, O> implements MealySymLearnerVariantList<I, O> {
 

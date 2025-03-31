@@ -42,7 +42,7 @@ public abstract class AbstractSPMMLearnerIT {
     @Factory
     public Object[] createExampleITCases() {
         final List<SPMMLearningExample<?, ?>> examples = LearningExamples.createSPMMExamples();
-        final List<AbstractLearnerVariantITCase<?, ?, ?>> result = new ArrayList<>();
+        final List<SPMMLearnerITCase<?, ?>> result = new ArrayList<>();
 
         for (SPMMLearningExample<?, ?> example : examples) {
             result.addAll(createAllVariantsITCase(example));

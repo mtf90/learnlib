@@ -20,7 +20,7 @@ import java.util.List;
 
 import de.learnlib.algorithm.LearningAlgorithm;
 import de.learnlib.logging.Category;
-import de.learnlib.oracle.EquivalenceOracle;
+import de.learnlib.oracle.EquivalenceOracleGeneralization;
 import de.learnlib.query.DefaultQuery;
 import de.learnlib.testsupport.example.LearningExample;
 import de.learnlib.testsupport.it.util.LockableOracle;
@@ -34,22 +34,22 @@ import org.testng.Assert;
 import org.testng.ITest;
 import org.testng.annotations.Test;
 
-public abstract class AbstractLearnerVariantITCase<I, D, M extends FiniteRepresentation> implements ITest {
+public abstract class AbstractLearnerVariantITCase<I, IC, D, M extends FiniteRepresentation> implements ITest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLearnerVariantITCase.class);
 
     private static final long NANOS_PER_MILLISECOND = 1_000_000;
     private static final long MILLIS_PER_SECOND = 1_000;
 
-    private final LearnerVariant<? extends M, I, D> variant;
+    private final LearnerVariant<? extends M, IC, D> variant;
     private final LearningExample<I, ? extends M> example;
-    private final LockableOracle<I, D> lockableOracle;
-    private final EquivalenceOracle<? super M, I, D> eqOracle;
+    private final LockableOracle<IC, D> lockableOracle;
+    private final EquivalenceOracleGeneralization<? super M, I, IC, D> eqOracle;
 
-    AbstractLearnerVariantITCase(LearnerVariant<? extends M, I, D> variant,
-                                 LearningExample<I, ? extends M> example,
-                                 LockableOracle<I, D> lockableOracle,
-                                 EquivalenceOracle<? super M, I, D> eqOracle) {
+    public AbstractLearnerVariantITCase(LearnerVariant<? extends M, IC, D> variant,
+                                        LearningExample<I, ? extends M> example,
+                                        LockableOracle<IC, D> lockableOracle,
+                                        EquivalenceOracleGeneralization<? super M, I, IC, D> eqOracle) {
         this.variant = variant;
         this.example = example;
         this.lockableOracle = lockableOracle;
@@ -59,7 +59,7 @@ public abstract class AbstractLearnerVariantITCase<I, D, M extends FiniteReprese
     @Test
     public void testLearning() {
         lockableOracle.lock();
-        LearningAlgorithm<? extends M, I, D> learner = variant.getLearner();
+        LearningAlgorithm<? extends M, IC, D> learner = variant.getLearner();
 
         Alphabet<I> alphabet = example.getAlphabet();
         M reference = example.getReferenceAutomaton();
@@ -87,8 +87,8 @@ public abstract class AbstractLearnerVariantITCase<I, D, M extends FiniteReprese
                             learner::startLearning);
 
         int roundCounter = 0;
-        DefaultQuery<I, D> ceQuery;
-        List<DefaultQuery<I, D>> ceQueries = new ArrayList<>();
+        DefaultQuery<IC, D> ceQuery;
+        List<DefaultQuery<IC, D>> ceQueries = new ArrayList<>();
 
         while ((ceQuery = eqOracle.findCounterExample(learner.getHypothesisModel(), alphabet)) != null) {
             roundCounter++;
@@ -114,7 +114,7 @@ public abstract class AbstractLearnerVariantITCase<I, D, M extends FiniteReprese
         }
 
         if (!ceQueries.isEmpty()) {
-            DefaultQuery<I, D> oldCe = ceQueries.get(0);
+            DefaultQuery<IC, D> oldCe = ceQueries.get(0);
             Assert.assertFalse(learner.refineHypothesis(oldCe),
                                "Learner should not report a hypothesis update on outdated counterexample");
         }

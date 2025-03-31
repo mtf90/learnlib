@@ -36,9 +36,11 @@ open module de.learnlib.api {
 
     // annotations are 'provided'-scoped and do not need to be loaded at runtime
     requires static org.checkerframework.checker.qual;
+    requires jconstraints.core;
 
     exports de.learnlib;
     exports de.learnlib.algorithm;
+    exports de.learnlib.data;
     exports de.learnlib.exception;
     exports de.learnlib.filter;
     exports de.learnlib.logging;

@@ -24,7 +24,7 @@ import net.automatalib.automaton.concept.Output;
 import net.automatalib.util.automaton.Automata;
 
 public class UniversalDeterministicLearnerITCase<I, D, M extends RegularAutomaton<?, I, ?, ?, ?> & Output<I, D>>
-        extends AbstractLearnerVariantITCase<I, D, M> {
+        extends AbstractLearnerVariantITCase<I, I, D, M> {
 
     private final UniversalDeterministicLearningExample<I, ? extends M> example;
 

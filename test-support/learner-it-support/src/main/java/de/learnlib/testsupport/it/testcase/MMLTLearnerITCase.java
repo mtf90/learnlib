@@ -26,7 +26,7 @@ import net.automatalib.util.automaton.mmlt.MMLTs;
 import net.automatalib.word.Word;
 
 public class MMLTLearnerITCase<I, O>
-        extends AbstractLearnerVariantITCase<TimedInput<I>, Word<TimedOutput<O>>, MMLT<?, I, ?, O>> {
+        extends AbstractLearnerVariantITCase<TimedInput<I>, TimedInput<I>, Word<TimedOutput<O>>, MMLT<?, I, ?, O>> {
 
     private final MMLTLearningExample<I, O> example;
 

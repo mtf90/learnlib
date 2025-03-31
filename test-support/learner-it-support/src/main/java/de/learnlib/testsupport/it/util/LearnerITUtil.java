@@ -15,21 +15,21 @@
  */
 package de.learnlib.testsupport.it.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-
 import de.learnlib.oracle.EquivalenceOracle;
+import de.learnlib.oracle.EquivalenceOracleGeneralization;
 import de.learnlib.query.DefaultQuery;
 import de.learnlib.testsupport.example.LearningExample;
 import de.learnlib.testsupport.example.LearningExample.MMLTLearningExample;
 import de.learnlib.testsupport.example.LearningExample.OneSEVPALearningExample;
+import de.learnlib.testsupport.example.LearningExample.RALearningExample;
+import de.learnlib.testsupport.example.LearningExample.RMMLearningExample;
 import de.learnlib.testsupport.example.LearningExample.SBALearningExample;
 import de.learnlib.testsupport.example.LearningExample.SPALearningExample;
 import de.learnlib.testsupport.example.LearningExample.SPMMLearningExample;
 import de.learnlib.testsupport.example.LearningExample.UniversalDeterministicLearningExample;
 import de.learnlib.testsupport.example.PassiveLearningExample;
+import de.learnlib.testsupport.it.RALearnerITCase;
+import de.learnlib.testsupport.it.RMMLearnerITCase;
 import de.learnlib.testsupport.it.testcase.AbstractLearnerVariantITCase;
 import de.learnlib.testsupport.it.testcase.MMLTLearnerITCase;
 import de.learnlib.testsupport.it.testcase.OneSEVPALearnerITCase;
@@ -42,10 +42,18 @@ import de.learnlib.testsupport.it.variant.LearnerVariant;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.MMLTLearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.OneSEVPALearnerVariantListImpl;
+import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.RALearnerVariantListImpl;
+import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.RMMLearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.SBALearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.SPALearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.SPMMLearnerVariantListImpl;
 import de.learnlib.testsupport.it.variant.PassiveLearnerVariant;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+
 import de.learnlib.testsupport.it.variant.PassiveLearnerVariantListImpl;
 import net.automatalib.alphabet.Alphabet;
 import net.automatalib.automaton.UniversalAutomaton;
@@ -57,9 +65,13 @@ import net.automatalib.automaton.mmlt.MMLT;
 import net.automatalib.automaton.procedural.SBA;
 import net.automatalib.automaton.procedural.SPA;
 import net.automatalib.automaton.procedural.SPMM;
+import net.automatalib.automaton.ra.RegisterAutomaton;
+import net.automatalib.automaton.ra.RegisterMealyMachine;
 import net.automatalib.automaton.vpa.OneSEVPA;
 import net.automatalib.symbol.time.TimedInput;
 import net.automatalib.symbol.time.TimedOutput;
+import net.automatalib.symbol.data.ParameterizedSymbol;
+import net.automatalib.symbol.data.SymbolInstance;
 import net.automatalib.word.Word;
 import net.automatalib.word.WordBuilder;
 
@@ -104,7 +116,7 @@ public final class LearnerITUtil {
             LockableOracle<I, D> lockableOracle,
             EquivalenceOracle<? super A, I, D> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<I, D, A, UniversalDeterministicLearningExample<I, ? extends A>, UniversalDeterministicLearnerITCase<I, D, A>, LockableOracle<I, D>>createExampleITCasesInternal(
+        return LearnerITUtil.<I, D, A, UniversalDeterministicLearningExample<I, ? extends A>, UniversalDeterministicLearnerITCase<I, D, A>, LockableOracle<I, D>, EquivalenceOracle<? super A, I, D>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -135,7 +147,7 @@ public final class LearnerITUtil {
                                                                             MMLTLockableOracle<I, O> lockableOracle,
                                                                             EquivalenceOracle<MMLT<?, I, ?, O>, TimedInput<I>, Word<TimedOutput<O>>> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<TimedInput<I>, Word<TimedOutput<O>>, MMLT<?, I, ?, O>, MMLTLearningExample<I, O>, MMLTLearnerITCase<I, O>, MMLTLockableOracle<I, O>>createExampleITCasesInternal(
+        return LearnerITUtil.<TimedInput<I>, Word<TimedOutput<O>>, MMLT<?, I, ?, O>, MMLTLearningExample<I, O>, MMLTLearnerITCase<I, O>, MMLTLockableOracle<I, O>, EquivalenceOracle<MMLT<?, I, ?, O>, TimedInput<I>, Word<TimedOutput<O>>>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -164,7 +176,7 @@ public final class LearnerITUtil {
                                                                      SPALockableOracle<I> lockableOracle,
                                                                      EquivalenceOracle<SPA<?, I>, I, Boolean> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<I, Boolean, SPA<?, I>, SPALearningExample<I>, SPALearnerITCase<I>, SPALockableOracle<I>>createExampleITCasesInternal(
+        return LearnerITUtil.<I, Boolean, SPA<?, I>, SPALearningExample<I>, SPALearnerITCase<I>, SPALockableOracle<I>, EquivalenceOracle<SPA<?, I>, I, Boolean>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -193,7 +205,7 @@ public final class LearnerITUtil {
                                                                      SBALockableOracle<I> lockableOracle,
                                                                      EquivalenceOracle<SBA<?, I>, I, Boolean> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<I, Boolean, SBA<?, I>, SBALearningExample<I>, SBALearnerITCase<I>, SBALockableOracle<I>>createExampleITCasesInternal(
+        return LearnerITUtil.<I, Boolean, SBA<?, I>, SBALearningExample<I>, SBALearnerITCase<I>, SBALockableOracle<I>, EquivalenceOracle<SBA<?, I>, I, Boolean>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -224,7 +236,7 @@ public final class LearnerITUtil {
                                                                             SPMMLockableOracle<I, O> lockableOracle,
                                                                             EquivalenceOracle<SPMM<?, I, ?, O>, I, Word<O>> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<I, Word<O>, SPMM<?, I, ?, O>, SPMMLearningExample<I, O>, SPMMLearnerITCase<I, O>, SPMMLockableOracle<I, O>>createExampleITCasesInternal(
+        return LearnerITUtil.<I, Word<O>, SPMM<?, I, ?, O>, SPMMLearningExample<I, O>, SPMMLearnerITCase<I, O>, SPMMLockableOracle<I, O>, EquivalenceOracle<SPMM<?, I, ?, O>, I, Word<O>>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -253,7 +265,7 @@ public final class LearnerITUtil {
                                                                           SEVPALockableOracle<I> lockableOracle,
                                                                           EquivalenceOracle<OneSEVPA<?, I>, I, Boolean> eqOracle) {
         // explicit generics are required for correct type-inference
-        return LearnerITUtil.<I, Boolean, OneSEVPA<?, I>, OneSEVPALearningExample<I>, OneSEVPALearnerITCase<I>, SEVPALockableOracle<I>>createExampleITCasesInternal(
+        return LearnerITUtil.<I, Boolean, OneSEVPA<?, I>, OneSEVPALearningExample<I>, OneSEVPALearnerITCase<I>, SEVPALockableOracle<I>, EquivalenceOracle<OneSEVPA<?, I>, I, Boolean>>createExampleITCasesInternal(
                 example,
                 variants,
                 lockableOracle,
@@ -261,12 +273,45 @@ public final class LearnerITUtil {
                 OneSEVPALearnerITCase::new);
     }
 
-    private static <I, D, M extends FiniteRepresentation, L extends LearningExample<I, ? extends M>, C extends AbstractLearnerVariantITCase<I, D, M>, LOR extends LockableOracle<I, D>> List<C> createExampleITCasesInternal(
+    public static <I extends ParameterizedSymbol> List<RALearnerITCase<I>> createExampleITCases(RALearningExample<I> example,
+                                                                                                RALearnerVariantListImpl<I> variants,
+                                                                                                LockableOracle<SymbolInstance<I>, Boolean> lockableOracle,
+                                                                                                EquivalenceOracleGeneralization<RegisterAutomaton<?, I, ?>, I, SymbolInstance<I>, Boolean> eqOracle) {
+        final List<LearnerVariant<RegisterAutomaton<?, I, ?>, SymbolInstance<I>, Boolean>> variantList =
+                variants.getLearnerVariants();
+        final List<RALearnerITCase<I>> result = new ArrayList<>(variantList.size());
+
+        for (LearnerVariant<RegisterAutomaton<?, I, ?>, SymbolInstance<I>, Boolean> variant : variantList) {
+            result.add(new RALearnerITCase<>(variant, example, lockableOracle, eqOracle));
+        }
+
+        return result;
+
+    }
+
+    public static <I extends ParameterizedSymbol, O extends ParameterizedSymbol> List<RMMLearnerITCase<I, O>> createExampleITCases(
+            RMMLearningExample<I, O> example,
+            RMMLearnerVariantListImpl<I, O> variants,
+            LockableOracle<SymbolInstance<I>, Word<SymbolInstance<O>>> lockableOracle,
+            EquivalenceOracleGeneralization<RegisterMealyMachine<?, I, ?, O>, I, SymbolInstance<I>, Word<SymbolInstance<O>>> eqOracle) {
+        final List<LearnerVariant<RegisterMealyMachine<?, I, ?, O>, SymbolInstance<I>, Word<SymbolInstance<O>>>>
+                variantList = variants.getLearnerVariants();
+        final List<RMMLearnerITCase<I, O>> result = new ArrayList<>(variantList.size());
+
+        for (LearnerVariant<RegisterMealyMachine<?, I, ?, O>, SymbolInstance<I>, Word<SymbolInstance<O>>> variant : variantList) {
+            result.add(new RMMLearnerITCase<>(variant, example, lockableOracle, eqOracle));
+        }
+
+        return result;
+
+    }
+
+    private static <I, D, M extends FiniteRepresentation, L extends LearningExample<I, ? extends M>, C extends AbstractLearnerVariantITCase<I, I, D, M>, LOR extends LockableOracle<I, D>, EQO extends EquivalenceOracleGeneralization<? super M, I, I, D>> List<C> createExampleITCasesInternal(
             L example,
             LearnerVariantListImpl<M, I, D> variants,
             LOR lockableOracle,
-            EquivalenceOracle<? super M, I, D> eqOracle,
-            ITCaseBuilder<I, D, M, L, C, LOR> builder) {
+            EQO eqOracle,
+            ITCaseBuilder<I, I, D, M, L, C, LOR, EQO> builder) {
 
         final List<LearnerVariant<M, I, D>> variantList = variants.getLearnerVariants();
         final List<C> result = new ArrayList<>(variantList.size());
@@ -335,11 +380,8 @@ public final class LearnerITUtil {
     }
 
     @FunctionalInterface
-    private interface ITCaseBuilder<I, D, M extends FiniteRepresentation, L extends LearningExample<I, ? extends M>, C extends AbstractLearnerVariantITCase<I, D, M>, LOR extends LockableOracle<I, D>> {
+    private interface ITCaseBuilder<I, IC, D, M extends FiniteRepresentation, L extends LearningExample<I, ? extends M>, C extends AbstractLearnerVariantITCase<I, IC, D, M>, LOR extends LockableOracle<I, D>, EQO extends EquivalenceOracleGeneralization<? super M, I, IC, D>> {
 
-        C build(LearnerVariant<M, I, D> variant,
-                L example,
-                LOR lockableOracle,
-                EquivalenceOracle<? super M, I, D> eqOracle);
+        C build(LearnerVariant<M, IC, D> variant, L example, LOR lockableOracle, EQO eqOracle);
     }
 }

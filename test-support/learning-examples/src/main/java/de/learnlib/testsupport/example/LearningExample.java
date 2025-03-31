@@ -15,6 +15,7 @@
  */
 package de.learnlib.testsupport.example;
 
+import de.learnlib.theory.Theories;
 import de.learnlib.time.MMLTModelParams;
 import net.automatalib.alphabet.Alphabet;
 import net.automatalib.alphabet.ProceduralInputAlphabet;
@@ -25,11 +26,14 @@ import net.automatalib.automaton.mmlt.MMLT;
 import net.automatalib.automaton.procedural.SBA;
 import net.automatalib.automaton.procedural.SPA;
 import net.automatalib.automaton.procedural.SPMM;
+import net.automatalib.automaton.ra.RegisterAutomaton;
+import net.automatalib.automaton.ra.RegisterMealyMachine;
 import net.automatalib.automaton.transducer.MealyMachine;
 import net.automatalib.automaton.transducer.MooreMachine;
 import net.automatalib.automaton.transducer.StateLocalInputMealyMachine;
 import net.automatalib.automaton.transducer.SubsequentialTransducer;
 import net.automatalib.automaton.vpa.OneSEVPA;
+import net.automatalib.symbol.data.ParameterizedSymbol;
 import net.automatalib.symbol.time.TimeStepSequence;
 import net.automatalib.symbol.time.TimedInput;
 import net.automatalib.symbol.time.TimeoutSymbol;
@@ -115,6 +119,16 @@ public interface LearningExample<I, A> {
 
         @Override
         VPAlphabet<I> getAlphabet();
+    }
+
+    interface RALearningExample<I extends ParameterizedSymbol> extends LearningExample<I, RegisterAutomaton<?, I, ?>> {
+
+        Theories getTeachers();
+    }
+
+    interface RMMLearningExample<I extends ParameterizedSymbol, O extends ParameterizedSymbol> extends LearningExample<I, RegisterMealyMachine<?, I, ?, O>> {
+
+        Theories getTeachers();
     }
 
 }

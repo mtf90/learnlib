@@ -46,7 +46,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *         output domain type
  */
 @FunctionalInterface
-public interface EquivalenceOracle<A, I, D> {
+public interface EquivalenceOracle<A, I, D> extends EquivalenceOracleGeneralization<A, I, I, D> {
 
     /**
      * Searches for a counterexample disproving the subjected hypothesis. A counterexample is query which, when
@@ -62,6 +62,7 @@ public interface EquivalenceOracle<A, I, D> {
      * non-{@code null} value is returned, the output field in the {@link DefaultQuery} contains the SUL output for the
      * respective query.
      */
+    @Override
     @Nullable DefaultQuery<I, D> findCounterExample(A hypothesis, Collection<? extends I> inputs);
 
     /**

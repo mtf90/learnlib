@@ -35,6 +35,7 @@ limitations under the License.
         <module>emptiness-oracles</module>
         <module>equivalence-oracles</module>
         <module>membership-oracles</module>
+        <module>multi-theory-oracles</module>
         <module>parallelism</module>
         <module>property-oracles</module>
     </modules>

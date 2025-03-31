@@ -44,7 +44,7 @@ import net.automatalib.word.Word;
  * @param <A>
  *         automaton type
  */
-public class DefaultLearningExample<I, D, A extends UniversalAutomaton<?, I, ?, ?, ?> & SuffixOutput<I, D>>
+public class DefaultLearningExample<I, D, A extends UniversalAutomaton<?, I, ?, ?, ?>>
         implements LearningExample<I, A> {
 
     private final Alphabet<I> alphabet;

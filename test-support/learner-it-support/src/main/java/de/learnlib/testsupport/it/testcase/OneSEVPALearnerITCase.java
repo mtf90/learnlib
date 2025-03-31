@@ -22,7 +22,7 @@ import de.learnlib.testsupport.it.variant.LearnerVariant;
 import net.automatalib.automaton.vpa.OneSEVPA;
 import net.automatalib.util.automaton.vpa.OneSEVPAs;
 
-public class OneSEVPALearnerITCase<I> extends AbstractLearnerVariantITCase<I, Boolean, OneSEVPA<?, I>> {
+public class OneSEVPALearnerITCase<I> extends AbstractLearnerVariantITCase<I, I, Boolean, OneSEVPA<?, I>> {
 
     private final OneSEVPALearningExample<I> example;
 

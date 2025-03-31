@@ -22,7 +22,7 @@ import de.learnlib.testsupport.it.variant.LearnerVariant;
 import net.automatalib.automaton.procedural.SBA;
 import net.automatalib.util.automaton.procedural.SBAs;
 
-public class SBALearnerITCase<I> extends AbstractLearnerVariantITCase<I, Boolean, SBA<?, I>> {
+public class SBALearnerITCase<I> extends AbstractLearnerVariantITCase<I, I, Boolean, SBA<?, I>> {
 
     private final SBALearningExample<I> example;
 

@@ -23,7 +23,7 @@ import net.automatalib.automaton.procedural.SPMM;
 import net.automatalib.util.automaton.procedural.SPMMs;
 import net.automatalib.word.Word;
 
-public class SPMMLearnerITCase<I, O> extends AbstractLearnerVariantITCase<I, Word<O>, SPMM<?, I, ?, O>> {
+public class SPMMLearnerITCase<I, O> extends AbstractLearnerVariantITCase<I, I, Word<O>, SPMM<?, I, ?, O>> {
 
     private final SPMMLearningExample<I, O> example;
 

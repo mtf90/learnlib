@@ -31,12 +31,14 @@
 open module de.learnlib.testsupport.example {
 
     requires de.learnlib.api;
+    requires de.learnlib.theory;
     requires net.automatalib.api;
     requires net.automatalib.common.util;
     requires net.automatalib.core;
     requires net.automatalib.serialization.dot;
     requires net.automatalib.serialization.learnlibv2;
     requires net.automatalib.util;
+    requires jconstraints.core;
     requires org.slf4j;
 
     // annotations are 'provided'-scoped and do not need to be loaded at runtime
@@ -46,6 +48,8 @@ open module de.learnlib.testsupport.example {
     exports de.learnlib.testsupport.example.dfa;
     exports de.learnlib.testsupport.example.mealy;
     exports de.learnlib.testsupport.example.moore;
+    exports de.learnlib.testsupport.example.ra;
+    exports de.learnlib.testsupport.example.rmm;
     exports de.learnlib.testsupport.example.sba;
     exports de.learnlib.testsupport.example.spa;
     exports de.learnlib.testsupport.example.spmm;

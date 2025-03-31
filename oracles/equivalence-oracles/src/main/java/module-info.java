@@ -30,6 +30,7 @@ open module de.learnlib.oracle.equivalence {
 
     requires de.learnlib.api;
     requires de.learnlib.common.util;
+    requires jconstraints.core;
     requires net.automatalib.api;
     requires net.automatalib.common.util;
     requires net.automatalib.core;
@@ -42,6 +43,8 @@ open module de.learnlib.oracle.equivalence {
 
     exports de.learnlib.oracle.equivalence;
     exports de.learnlib.oracle.equivalence.mealy;
+    exports de.learnlib.oracle.equivalence.ra;
+    exports de.learnlib.oracle.equivalence.rmm;
     exports de.learnlib.oracle.equivalence.sba;
     exports de.learnlib.oracle.equivalence.spa;
     exports de.learnlib.oracle.equivalence.spmm;

@@ -34,12 +34,15 @@ open module de.learnlib.testsupport.it {
     requires de.learnlib.common.util;
     requires de.learnlib.driver.simulator;
     requires de.learnlib.oracle.membership;
+    requires de.learnlib.oracle.mto;
     requires de.learnlib.oracle.equivalence;
     requires de.learnlib.testsupport.example;
+    requires de.learnlib.theory;
     requires net.automatalib.api;
     requires net.automatalib.util;
     requires org.slf4j;
     requires org.testng;
+    requires jconstraints.core;
 
     // annotations are 'provided'-scoped and do not need to be loaded at runtime
     requires static de.learnlib.tooling.annotation;

@@ -57,6 +57,10 @@ limitations under the License.
         </dependency>
         <dependency>
             <groupId>de.learnlib</groupId>
+            <artifactId>learnlib-multi-theory-oracles</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.learnlib</groupId>
             <artifactId>learnlib-util</artifactId>
         </dependency>
 
@@ -90,6 +94,16 @@ limitations under the License.
             <artifactId>testng</artifactId>
             <scope>compile</scope>
             <!-- Override! -->
+        </dependency>
+
+        <dependency>
+            <groupId>tools.aqua</groupId>
+            <artifactId>jconstraints-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tools.aqua</groupId>
+            <artifactId>jconstraints-z3</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

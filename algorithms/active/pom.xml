@@ -46,5 +46,6 @@ limitations under the License.
         <module>sparse</module>
         <module>ttt</module>
         <module>ttt-vpa</module>
+        <module>learnlib-register</module>
     </modules>
 </project>

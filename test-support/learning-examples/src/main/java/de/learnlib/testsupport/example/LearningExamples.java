@@ -15,17 +15,13 @@
  */
 package de.learnlib.testsupport.example;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import de.learnlib.testsupport.example.LearningExample.DFALearningExample;
 import de.learnlib.testsupport.example.LearningExample.MMLTLearningExample;
 import de.learnlib.testsupport.example.LearningExample.MealyLearningExample;
 import de.learnlib.testsupport.example.LearningExample.MooreLearningExample;
 import de.learnlib.testsupport.example.LearningExample.OneSEVPALearningExample;
+import de.learnlib.testsupport.example.LearningExample.RALearningExample;
+import de.learnlib.testsupport.example.LearningExample.RMMLearningExample;
 import de.learnlib.testsupport.example.LearningExample.SBALearningExample;
 import de.learnlib.testsupport.example.LearningExample.SPALearningExample;
 import de.learnlib.testsupport.example.LearningExample.SPMMLearningExample;
@@ -44,12 +40,23 @@ import de.learnlib.testsupport.example.mealy.ExampleStack;
 import de.learnlib.testsupport.example.mealy.ExampleTinyMealy;
 import de.learnlib.testsupport.example.mmlt.MMLTExamples;
 import de.learnlib.testsupport.example.moore.ExampleRandomMoore;
+import de.learnlib.testsupport.example.ra.ExampleLLambda;
+import de.learnlib.testsupport.example.ra.ExampleLogin;
+import de.learnlib.testsupport.example.ra.ExampleMixedIO;
+import de.learnlib.testsupport.example.ra.ExamplePadlock;
+import de.learnlib.testsupport.example.rmm.ExampleContainerSUL;
 import de.learnlib.testsupport.example.sba.ExampleRandomSBA;
 import de.learnlib.testsupport.example.spa.ExamplePalindrome;
 import de.learnlib.testsupport.example.spa.ExampleRandomSPA;
 import de.learnlib.testsupport.example.spmm.ExampleRandomSPMM;
 import de.learnlib.testsupport.example.sst.ExampleRandomSST;
 import de.learnlib.testsupport.example.vpa.ExampleRandomOneSEVPA;
+import gov.nasa.jpf.constraints.api.ConstraintSolver;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import net.automatalib.alphabet.Alphabet;
 import net.automatalib.alphabet.ProceduralInputAlphabet;
 import net.automatalib.alphabet.ProceduralOutputAlphabet;
@@ -121,6 +128,19 @@ public final class LearningExamples {
                                                                                          RANDOM_SIZE,
                                                                                          UNDEFINED_MEALY_OUTPUT,
                                                                                          RANDOM_MEALY_OUTPUTS));
+    }
+
+    public static List<RALearningExample<?>> createRAExamples(ConstraintSolver solver) {
+        return Arrays.asList(new ExampleLLambda(),
+                             new ExampleLogin(),
+                             new ExamplePadlock(),
+//                             new de.learnlib.testsupport.example.ra.ExampleStack(),
+                             new ExampleMixedIO(solver));
+    }
+
+    public static List<RMMLearningExample<?, ?>> createRMMExamples(ConstraintSolver solver) {
+        return Arrays.asList(//new ExampleKeyGenMap(),
+                             new ExampleContainerSUL());
     }
 
     public static List<SSTLearningExample<?, ?>> createSSTExamples() {

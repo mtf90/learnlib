@@ -42,7 +42,7 @@ public abstract class AbstractSPALearnerIT {
     @Factory
     public Object[] createExampleITCases() {
         final List<SPALearningExample<?>> examples = LearningExamples.createSPAExamples();
-        final List<AbstractLearnerVariantITCase<?, ?, ?>> result = new ArrayList<>();
+        final List<SPALearnerITCase<?>> result = new ArrayList<>();
 
         for (SPALearningExample<?> example : examples) {
             result.addAll(createAllVariantsITCase(example));

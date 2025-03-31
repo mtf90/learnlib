@@ -465,6 +465,11 @@ limitations under the License.
             </dependency>
             <dependency>
                 <groupId>de.learnlib</groupId>
+                <artifactId>learnlib-theories</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.learnlib</groupId>
                 <artifactId>learnlib-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -550,6 +555,11 @@ limitations under the License.
             <dependency>
                 <groupId>de.learnlib</groupId>
                 <artifactId>learnlib-membership-oracles</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.learnlib</groupId>
+                <artifactId>learnlib-multi-theory-oracles</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -69,6 +69,11 @@ limitations under the License.
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>tools.aqua</groupId>
+            <artifactId>jconstraints-z3</artifactId>
+        </dependency>
+
         <!-- build -->
         <dependency>
             <groupId>de.learnlib.tooling</groupId>
