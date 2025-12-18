@@ -25,8 +25,9 @@ import de.learnlib.oracle.membership.RASimulatorOracle;
 import de.learnlib.oracle.mto.MTOConfiguration;
 import de.learnlib.testsupport.example.LearningExample.RALearningExample;
 import de.learnlib.testsupport.example.LearningExamples;
+import de.learnlib.testsupport.it.testcase.RALearnerITCase;
 import de.learnlib.testsupport.it.util.LearnerITUtil;
-import de.learnlib.testsupport.it.util.LockableOracle;
+import de.learnlib.testsupport.it.util.RALockableOracle;
 import de.learnlib.testsupport.it.variant.LearnerVariantList;
 import de.learnlib.testsupport.it.variant.LearnerVariantList.RALearnerVariantList;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.RALearnerVariantListImpl;
@@ -69,7 +70,7 @@ public abstract class AbstractRALearnerIT {
         final Theories teachers = example.getTeachers();
 
         final MembershipOracle<SymbolInstance<I>, Boolean> mqOracle = new RASimulatorOracle<>(ra);
-        final LockableOracle<SymbolInstance<I>, Boolean> lockableOracle = new LockableOracle<>(mqOracle);
+        final RALockableOracle<I> lockableOracle = new RALockableOracle<>(mqOracle);
         final Configuration<I> config = new MTOConfiguration<>(lockableOracle, ra.getConstants(), teachers, solver);
 
         final RALearnerVariantListImpl<I> variants = new RALearnerVariantListImpl<>();

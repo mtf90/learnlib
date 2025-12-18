@@ -25,8 +25,9 @@ import de.learnlib.oracle.membership.RMMSimulatorOracle;
 import de.learnlib.oracle.mto.MTORMMConfiguration;
 import de.learnlib.testsupport.example.LearningExample.RMMLearningExample;
 import de.learnlib.testsupport.example.LearningExamples;
+import de.learnlib.testsupport.it.testcase.RMMLearnerITCase;
 import de.learnlib.testsupport.it.util.LearnerITUtil;
-import de.learnlib.testsupport.it.util.LockableOracle;
+import de.learnlib.testsupport.it.util.RMMLockableOracle;
 import de.learnlib.testsupport.it.variant.LearnerVariantList;
 import de.learnlib.testsupport.it.variant.LearnerVariantList.RMMLearnerVariantList;
 import de.learnlib.testsupport.it.variant.LearnerVariantListImpl.RMMLearnerVariantListImpl;
@@ -71,8 +72,7 @@ public abstract class AbstractRMMLearnerIT {
         final Theories teachers = example.getTeachers();
         final MembershipOracle<SymbolInstance<I>, Word<SymbolInstance<O>>> mqOracle =
                 new RMMSimulatorOracle<>(rmm, teachers.toGeneratorMapping());
-        final LockableOracle<SymbolInstance<I>, Word<SymbolInstance<O>>> lockableOracle =
-                new LockableOracle<>(mqOracle);
+        final RMMLockableOracle<I, O> lockableOracle = new RMMLockableOracle<>(mqOracle);
         final Configuration<I> config = new MTORMMConfiguration<>(lockableOracle, rmm.getConstants(), teachers, solver);
 
         final RMMLearnerVariantListImpl<I, O> variants = new RMMLearnerVariantListImpl<>();

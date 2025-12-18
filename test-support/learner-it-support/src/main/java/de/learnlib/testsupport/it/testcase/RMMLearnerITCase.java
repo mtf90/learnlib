@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.learnlib.testsupport.it;
+package de.learnlib.testsupport.it.testcase;
 
-import de.learnlib.oracle.EquivalenceOracle;
 import de.learnlib.oracle.EquivalenceOracleGeneralization;
 import de.learnlib.testsupport.example.LearningExample.RMMLearningExample;
-import de.learnlib.testsupport.it.testcase.AbstractLearnerVariantITCase;
-import de.learnlib.testsupport.it.util.LockableOracle;
+import de.learnlib.testsupport.it.util.RMMLockableOracle;
 import de.learnlib.testsupport.it.variant.LearnerVariant;
 import gov.nasa.jpf.constraints.api.ConstraintSolver;
 import gov.nasa.jpf.constraints.solvers.ConstraintSolverFactory;
@@ -37,7 +35,7 @@ public class RMMLearnerITCase<I extends ParameterizedSymbol, O extends Parameter
 
     public RMMLearnerITCase(LearnerVariant<RegisterMealyMachine<?, I, ?, O>, SymbolInstance<I>, Word<SymbolInstance<O>>> variant,
                             RMMLearningExample<I, O> example,
-                            LockableOracle<SymbolInstance<I>, Word<SymbolInstance<O>>> lockableOracle,
+                            RMMLockableOracle<I, O> lockableOracle,
                             EquivalenceOracleGeneralization<? super RegisterMealyMachine<?, I, ?, O>, I, SymbolInstance<I>, Word<SymbolInstance<O>>> eqOracle) {
         super(variant, example, lockableOracle, eqOracle);
         this.example = example;

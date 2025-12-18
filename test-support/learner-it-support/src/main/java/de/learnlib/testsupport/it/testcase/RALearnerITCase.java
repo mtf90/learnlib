@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.learnlib.testsupport.it;
+package de.learnlib.testsupport.it.testcase;
 
-import java.util.concurrent.locks.Lock;
-
-import de.learnlib.oracle.EquivalenceOracle;
 import de.learnlib.oracle.EquivalenceOracleGeneralization;
 import de.learnlib.testsupport.example.LearningExample.RALearningExample;
-import de.learnlib.testsupport.it.testcase.AbstractLearnerVariantITCase;
-import de.learnlib.testsupport.it.util.LockableOracle;
+import de.learnlib.testsupport.it.util.RALockableOracle;
 import de.learnlib.testsupport.it.variant.LearnerVariant;
 import gov.nasa.jpf.constraints.api.ConstraintSolver;
 import gov.nasa.jpf.constraints.solvers.ConstraintSolverFactory;
@@ -38,7 +34,7 @@ public class RALearnerITCase<I extends ParameterizedSymbol>
 
     public RALearnerITCase(LearnerVariant<RegisterAutomaton<?, I, ?>, SymbolInstance<I>, Boolean> variant,
                            RALearningExample<I> example,
-                           LockableOracle<SymbolInstance<I>, Boolean> lockableOracle,
+                           RALockableOracle<I> lockableOracle,
                            EquivalenceOracleGeneralization<? super RegisterAutomaton<?, I, ?>, I, SymbolInstance<I>, Boolean> eqOracle) {
         super(variant, example, lockableOracle, eqOracle);
         this.example = example;

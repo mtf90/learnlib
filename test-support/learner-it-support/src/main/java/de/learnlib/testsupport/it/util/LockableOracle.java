@@ -25,6 +25,7 @@ import de.learnlib.query.Query;
 import de.learnlib.tooling.annotation.refinement.GenerateRefinement;
 import de.learnlib.tooling.annotation.refinement.Generic;
 import de.learnlib.tooling.annotation.refinement.Interface;
+import net.automatalib.symbol.data.SymbolInstance;
 import net.automatalib.word.Word;
 
 /**
@@ -53,6 +54,24 @@ import net.automatalib.word.Word;
                     parentGenerics = {@Generic("I"), @Generic(clazz = Word.class, generics = "O")},
                     interfaces = @Interface(clazz = SingleQueryOracleMoore.class,
                                             generics = {@Generic("I"), @Generic("O")}))
+@GenerateRefinement(name = "RALockableOracle",
+                    generics = @Generic(value = "I extends net.automatalib.symbol.data.ParameterizedSymbol",
+                                        desc = "input symbol type"),
+                    parentGenerics = {@Generic(clazz = SymbolInstance.class, generics = "I"),
+                                      @Generic(clazz = Boolean.class)},
+                    interfaces = @Interface(clazz = SingleQueryOracleDFA.class,
+                                            generics = @Generic(clazz = SymbolInstance.class, generics = "I")))
+@GenerateRefinement(name = "RMMLockableOracle",
+                    generics = {@Generic(value = "I extends net.automatalib.symbol.data.ParameterizedSymbol",
+                                         desc = "input symbol type"),
+                                @Generic(value = "O extends net.automatalib.symbol.data.ParameterizedSymbol",
+                                         desc = "output symbol type")},
+                    parentGenerics = {@Generic(clazz = SymbolInstance.class, generics = "I"),
+                                      @Generic(clazz = Word.class,
+                                               generics = "net.automatalib.symbol.data.SymbolInstance<O>")},
+                    interfaces = @Interface(clazz = SingleQueryOracleMealy.class,
+                                            generics = {@Generic(clazz = SymbolInstance.class, generics = "I"),
+                                                        @Generic(clazz = SymbolInstance.class, generics = "O")}))
 @GenerateRefinement(name = "SBALockableOracle",
                     generics = @Generic(value = "I", desc = "input symbol type"),
                     parentGenerics = {@Generic("I"), @Generic(clazz = Boolean.class)},

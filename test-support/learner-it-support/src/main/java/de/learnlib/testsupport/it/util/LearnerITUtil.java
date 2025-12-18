@@ -28,8 +28,8 @@ import de.learnlib.testsupport.example.LearningExample.SPALearningExample;
 import de.learnlib.testsupport.example.LearningExample.SPMMLearningExample;
 import de.learnlib.testsupport.example.LearningExample.UniversalDeterministicLearningExample;
 import de.learnlib.testsupport.example.PassiveLearningExample;
-import de.learnlib.testsupport.it.RALearnerITCase;
-import de.learnlib.testsupport.it.RMMLearnerITCase;
+import de.learnlib.testsupport.it.testcase.RALearnerITCase;
+import de.learnlib.testsupport.it.testcase.RMMLearnerITCase;
 import de.learnlib.testsupport.it.testcase.AbstractLearnerVariantITCase;
 import de.learnlib.testsupport.it.testcase.MMLTLearnerITCase;
 import de.learnlib.testsupport.it.testcase.OneSEVPALearnerITCase;
@@ -275,7 +275,7 @@ public final class LearnerITUtil {
 
     public static <I extends ParameterizedSymbol> List<RALearnerITCase<I>> createExampleITCases(RALearningExample<I> example,
                                                                                                 RALearnerVariantListImpl<I> variants,
-                                                                                                LockableOracle<SymbolInstance<I>, Boolean> lockableOracle,
+                                                                                                RALockableOracle<I> lockableOracle,
                                                                                                 EquivalenceOracleGeneralization<RegisterAutomaton<?, I, ?>, I, SymbolInstance<I>, Boolean> eqOracle) {
         final List<LearnerVariant<RegisterAutomaton<?, I, ?>, SymbolInstance<I>, Boolean>> variantList =
                 variants.getLearnerVariants();
@@ -292,7 +292,7 @@ public final class LearnerITUtil {
     public static <I extends ParameterizedSymbol, O extends ParameterizedSymbol> List<RMMLearnerITCase<I, O>> createExampleITCases(
             RMMLearningExample<I, O> example,
             RMMLearnerVariantListImpl<I, O> variants,
-            LockableOracle<SymbolInstance<I>, Word<SymbolInstance<O>>> lockableOracle,
+            RMMLockableOracle<I, O> lockableOracle,
             EquivalenceOracleGeneralization<RegisterMealyMachine<?, I, ?, O>, I, SymbolInstance<I>, Word<SymbolInstance<O>>> eqOracle) {
         final List<LearnerVariant<RegisterMealyMachine<?, I, ?, O>, SymbolInstance<I>, Word<SymbolInstance<O>>>>
                 variantList = variants.getLearnerVariants();
