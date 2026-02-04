@@ -29,6 +29,8 @@ import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
 import org.checkerframework.checker.nullness.qual.KeyFor;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.nullness.qual.PolyNull;
+import org.checkerframework.checker.nullness.qual.RequiresNonNull;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * A node in the {@link TimedSULTreeCache}. A node has a parent and children for an arbitrary number of transitions with
@@ -69,22 +71,25 @@ class CacheTreeNode<I, O> {
     // -------------------------------------------------------
 
     @EnsuresNonNullIf(result = true, expression = "this.timeTransition")
+    @Pure
     boolean hasTimeChild() {
         return this.timeTransition != null;
     }
 
+    @Pure
     long getTimeout() {
-        assert this.hasTimeChild();
         return timeout;
     }
 
+    @RequiresNonNull("this.timeTransition")
+    @Pure
     TimedOutput<O> getTimeoutOutput() {
-        assert this.hasTimeChild();
         return this.timeTransition.output();
     }
 
+    @RequiresNonNull("this.timeTransition")
+    @Pure
     CacheTreeNode<I, O> getTimeoutChild() {
-        assert this.hasTimeChild();
         return this.timeTransition.target();
     }
 
@@ -99,9 +104,10 @@ class CacheTreeNode<I, O> {
      *
      * @return the new child node
      */
+    @RequiresNonNull("this.timeTransition")
     CacheTreeNode<I, O> splitTimeout(long newTimeout, TimedOutput<O> output) {
         CacheTreeTransition<I, O> trans = this.timeTransition;
-        assert trans != null && newTimeout < this.getTimeout() : "Must split at lower timeout.";
+        assert newTimeout < this.getTimeout() : "Must split at lower timeout.";
 
         CacheTreeNode<I, O> newChild = new CacheTreeNode<>(this, new TimeStepSequence<>(newTimeout));
         newChild.timeout = this.timeout - newTimeout;

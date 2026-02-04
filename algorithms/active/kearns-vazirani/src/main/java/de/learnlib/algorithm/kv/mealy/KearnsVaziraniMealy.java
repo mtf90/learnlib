@@ -43,6 +43,7 @@ import net.automatalib.automaton.impl.CompactTransition;
 import net.automatalib.automaton.transducer.MealyMachine;
 import net.automatalib.automaton.transducer.impl.CompactMealy;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,8 +170,8 @@ public class KearnsVaziraniMealy<I, O>
             newOut = separatorInfo.subtree2Label;
         } else {
             newDiscriminator = newDiscriminator(sym, separator.getDiscriminator());
-            CompactTransition<O> transition = hypothesis.getTransition(state, sym);
-            assert transition != null;
+            @SuppressWarnings("nullness") // we always construct total hypotheses
+            @NonNull CompactTransition<O> transition = hypothesis.getTransition(state, sym);
             O transOut = hypothesis.getTransitionOutput(transition);
             oldOut = newOutcome(transOut, separatorInfo.subtree1Label);
             newOut = newOutcome(transOut, separatorInfo.subtree2Label);
@@ -216,8 +217,8 @@ public class KearnsVaziraniMealy<I, O>
             int sourceState = (int) (encodedTrans >> Integer.SIZE);
             int transIdx = (int) encodedTrans;
 
-            CompactTransition<O> trans = hypothesis.getTransition(sourceState, transIdx);
-            assert trans != null;
+            @SuppressWarnings("nullness") // we always construct total hypotheses
+            @NonNull CompactTransition<O> trans = hypothesis.getTransition(sourceState, transIdx);
             setTransition(sourceState, transIdx, succs.get(i), trans.getProperty());
         }
     }
@@ -413,7 +414,8 @@ public class KearnsVaziraniMealy<I, O>
             }
 
             // Output of last transition separates hypothesis from target
-            O lastHypOut = hypothesis.getOutput(states[m - 1].id, ceWord.lastSymbol());
+            @SuppressWarnings("nullness") // we always construct total hypotheses
+            @NonNull O lastHypOut = hypothesis.getOutput(states[m - 1].id, ceWord.lastSymbol());
             lcas[m] = new LCAInfo<>(null, Word.fromLetter(lastHypOut), Word.fromLetter(output.lastSymbol()));
             super.setEffect(m, false);
         }

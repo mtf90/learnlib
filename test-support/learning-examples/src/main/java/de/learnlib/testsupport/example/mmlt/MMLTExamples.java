@@ -17,6 +17,7 @@ package de.learnlib.testsupport.example.mmlt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import de.learnlib.testsupport.example.LearningExample.MMLTLearningExample;
 import de.learnlib.time.MMLTModelParams;
@@ -28,6 +29,7 @@ import net.automatalib.serialization.dot.DOTInputModelData;
 import net.automatalib.serialization.dot.DOTInputModelDeserializer;
 import net.automatalib.serialization.dot.DOTParsers;
 import net.automatalib.util.automaton.mmlt.MMLTs;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A collection of {@link MMLT}-based learning examples.
@@ -138,7 +140,9 @@ public final class MMLTExamples {
             final DOTInputModelDeserializer<Integer, String, CompactMMLT<String, String>> parser =
                     DOTParsers.mmlt(silentOutput, outputCombiner);
 
-            try (InputStream is = MMLTExamples.class.getResourceAsStream("/mmlt/" + name + ".dot")) {
+            @SuppressWarnings("nullness") // this is a private class only inoked with correct paths
+            final @NonNull URL resource = MMLTExamples.class.getResource("/mmlt/" + name + ".dot");
+            try (InputStream is = resource.openStream()) {
                 assert is != null;
                 final DOTInputModelData<Integer, String, CompactMMLT<String, String>> model = parser.readModel(is);
                 final CompactMMLT<String, String> automaton = model.model;

@@ -34,6 +34,7 @@ import net.automatalib.alphabet.SupportsGrowingAlphabet;
 import net.automatalib.automaton.concept.FiniteRepresentation;
 import net.automatalib.automaton.concept.SuffixOutput;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public abstract class AbstractTTTLambda<M extends SuffixOutput<I, D>, I, D>
@@ -54,7 +55,7 @@ public abstract class AbstractTTTLambda<M extends SuffixOutput<I, D>, I, D>
 
     protected abstract int maxSearchIndex(int ceLength);
 
-    protected abstract @Nullable DTLeaf<I, D> getState(Word<I> prefix);
+    protected abstract DTLeaf<I, D> getState(Word<I> prefix);
 
     protected abstract AbstractDecisionTree<I, D> dtree();
 
@@ -124,11 +125,17 @@ public abstract class AbstractTTTLambda<M extends SuffixOutput<I, D>, I, D>
 
     private PTNode<I, D> longestShortPrefixOf(Word<I> ce) {
         PTNode<I, D> cur = ptree.root();
-        int i = 0;
-        do {
-            cur = cur.succ(ce.getSymbol(i++));
-            assert cur != null;
-        } while (cur.state().getShortPrefixes().contains(cur) && i < ce.length());
+
+        for (I i : ce) {
+            @SuppressWarnings("nullness") // the termination condition should fire before we run out of children
+            @NonNull PTNode<I, D> succ = cur.succ(i);
+
+            if (!succ.state().getShortPrefixes().contains(succ)) {
+                return succ;
+            } else {
+                cur = succ;
+            }
+        }
 
         assert !cur.state().getShortPrefixes().contains(cur);
         return cur;
@@ -147,7 +154,6 @@ public abstract class AbstractTTTLambda<M extends SuffixOutput<I, D>, I, D>
             Word<I> suffix = ce.suffix(ce.length() - mid);
 
             DTLeaf<I, D> q = getState(prefix);
-            assert q != null;
 
             boolean stillCe = false;
             for (PTNode<I, D> u : q.getShortPrefixes()) {
@@ -175,7 +181,6 @@ public abstract class AbstractTTTLambda<M extends SuffixOutput<I, D>, I, D>
         int mid = (upper + lower) / 2;
         Word<I> sprime = ce.suffix(ce.length() - (mid + 1));
         DTLeaf<I, D> qnext = getState(ua.word());
-        assert qnext != null;
         for (PTNode<I, D> uprime : qnext.getShortPrefixes()) {
             witnesses.push(new DefaultQuery<>(uprime.word(), sprime));
         }

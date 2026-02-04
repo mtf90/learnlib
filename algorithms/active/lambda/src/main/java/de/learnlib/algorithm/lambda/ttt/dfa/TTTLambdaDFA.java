@@ -48,8 +48,9 @@ public class TTTLambdaDFA<I> extends AbstractTTTLambda<DFA<?, I>, I, Boolean> im
         return ceLength;
     }
 
+    @SuppressWarnings("nullness") // our hypotheses are always total
     @Override
-    protected @Nullable DTLeaf<I, Boolean> getState(Word<I> prefix) {
+    protected DTLeaf<I, Boolean> getState(Word<I> prefix) {
         return hypothesis.getState(prefix);
     }
 

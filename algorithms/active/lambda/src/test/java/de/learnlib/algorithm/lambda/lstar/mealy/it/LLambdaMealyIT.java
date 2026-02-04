@@ -17,6 +17,7 @@ package de.learnlib.algorithm.lambda.lstar.mealy.it;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Random;
 
@@ -40,6 +41,7 @@ import net.automatalib.serialization.dot.DOTInputModelData;
 import net.automatalib.serialization.dot.DOTParsers;
 import net.automatalib.util.automaton.Automata;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -62,8 +64,10 @@ public class LLambdaMealyIT extends AbstractMealyLearnerIT {
     @Test
     public void testIssue144() throws IOException, FormatException {
 
-        try (InputStream is = LLambdaMealyIT.class.getClassLoader()
-                                                  .getResourceAsStream("mosquitto__two_client_will_retain.dot")) {
+        @SuppressWarnings("nullness") // this is a private class only inoked with correct paths
+        final @NonNull URL resource = LLambdaMealyIT.class.getResource("mosquitto__two_client_will_retain.dot");
+
+        try (InputStream is = resource.openStream()) {
             final DOTInputModelData<Integer, String, CompactMealy<String, String>> model =
                     DOTParsers.mealy().readModel(is);
             final CompactMealy<String, String> mealy = model.model;

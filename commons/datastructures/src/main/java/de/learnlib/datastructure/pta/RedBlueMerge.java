@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 import net.automatalib.automaton.UniversalDeterministicAutomaton;
 import net.automatalib.common.util.array.ArrayStorage;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class RedBlueMerge<S extends AbstractBlueFringePTAState<S, SP, TP>, SP, TP> {
@@ -159,8 +160,8 @@ public class RedBlueMerge<S extends AbstractBlueFringePTAState<S, SP, TP>, SP, T
 
     private S cloneTopSucc(S succ, int i, Deque<FoldRecord<S>> stack, @Nullable ArrayStorage<TP> newTPs) {
         S succClone = (newTPs != null) ? succ.copy(newTPs) : succ.copy();
-        FoldRecord<S> peek = stack.peek();
-        assert peek != null;
+        @SuppressWarnings("nullness") // this method is always called with a non empty stack
+        @NonNull FoldRecord<S> peek = stack.peek();
         S top = peek.q;
         if (top.isRed()) {
             updateRedTransition(top, i, succClone);
@@ -188,7 +189,6 @@ public class RedBlueMerge<S extends AbstractBlueFringePTAState<S, SP, TP>, SP, T
 
         while (!currSrc.isRed()) {
             S currSrcClone = currSrc.copy();
-            assert currSrcClone.successors != null;
             currSrcClone.successors.set(currRec.i, currTgt);
             currRec.q = currSrcClone;
             currTgt = currSrcClone;

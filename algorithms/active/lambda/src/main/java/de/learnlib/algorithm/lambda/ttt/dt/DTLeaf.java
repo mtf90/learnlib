@@ -23,6 +23,7 @@ import java.util.Map;
 
 import de.learnlib.algorithm.lambda.ttt.pt.PTNode;
 import de.learnlib.algorithm.lambda.ttt.st.STNode;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class DTLeaf<I, D> extends AbstractDTNode<I, D> {
@@ -70,9 +71,10 @@ public class DTLeaf<I, D> extends AbstractDTNode<I, D> {
         I bestA = null;
         int vLength = 0;
         for (I a : tree.getAlphabet()) {
-            PTNode<I, D> s1 = u1.succ(a);
-            PTNode<I, D> s2 = u2.succ(a);
-            assert s1 != null && s2 != null;
+            @SuppressWarnings("nullness") // the node has full information for short prefix successors
+            @NonNull PTNode<I, D> s1 = u1.succ(a);
+            @SuppressWarnings("nullness") // the node has full information for short prefix successors
+            @NonNull PTNode<I, D> s2 = u2.succ(a);
             DTLeaf<I, D> ua1 = s1.state();
             DTLeaf<I, D> ua2 = s2.state();
 
@@ -104,9 +106,10 @@ public class DTLeaf<I, D> extends AbstractDTNode<I, D> {
     }
 
     public void split(PTNode<I, D> u1, PTNode<I, D> u2, I a) {
-        PTNode<I, D> s1 = u1.succ(a);
-        PTNode<I, D> s2 = u2.succ(a);
-        assert s1 != null && s2 != null;
+        @SuppressWarnings("nullness") // the node has full information for short prefix successors
+        @NonNull PTNode<I, D> s1 = u1.succ(a);
+        @SuppressWarnings("nullness") // the node has full information for short prefix successors
+        @NonNull PTNode<I, D> s2 = u2.succ(a);
         DTLeaf<I, D> ua1 = s1.state();
         DTLeaf<I, D> ua2 = s2.state();
         AbstractDTNode<I, D> n = lca(ua1, ua2);

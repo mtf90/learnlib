@@ -179,15 +179,14 @@ abstract class AbstractLLambda<M extends SuffixOutput<I, D>, I, D> implements Le
     }
 
     private boolean findInconsistency(Word<I> u1, Word<I> u2) {
-        List<D> rowData1 = rows.get(u1);
-        List<D> rowData2 = rows.get(u2);
+        List<D> rowData1 = getRow(u1);
+        List<D> rowData2 = getRow(u2);
         if (!Objects.equals(rowData1, rowData2)) {
             return false;
         }
         for (I a : alphabet) {
-            rowData1 = rows.get(u1.append(a));
-            rowData2 = rows.get(u2.append(a));
-            assert rowData1 != null && rowData2 != null;
+            rowData1 = getRow(u1.append(a));
+            rowData2 = getRow(u2.append(a));
             if (!rowData1.equals(rowData2)) {
                 for (int i = 0; i < rowData1.size(); i++) {
                     if (!Objects.equals(rowData1.get(i), rowData2.get(i))) {
@@ -205,15 +204,13 @@ abstract class AbstractLLambda<M extends SuffixOutput<I, D>, I, D> implements Le
     }
 
     private List<Word<I>> getShortPrefixes(Word<I> prefix) {
-        List<D> rowData = rows.get(prefix);
-        assert rowData != null;
-        return getShortPrefixes(rowData);
+        return getShortPrefixes(getRow(prefix));
     }
 
     protected List<Word<I>> getShortPrefixes(List<D> rowData) {
         List<Word<I>> shortReps = new ArrayList<>();
         for (Entry<Word<I>, List<D>> e : rows.entrySet()) {
-            if (shortPrefixes.contains(e.getKey()) && rowData.equals(e.getValue())) {
+            if (shortPrefixes.contains(e.getKey()) && e.getValue().equals(rowData)) {
                 shortReps.add(e.getKey());
             }
         }
@@ -224,10 +221,9 @@ abstract class AbstractLLambda<M extends SuffixOutput<I, D>, I, D> implements Le
         return shortPrefixes;
     }
 
+    @SuppressWarnings("nullness") // this package-private method is only invoked with either short or long prefixes
     List<D> getRow(Word<I> key) {
-        List<D> row = rows.get(key);
-        assert row != null;
-        return row;
+        return rows.get(key);
     }
 
     void addSuffix(Word<I> suffix) {

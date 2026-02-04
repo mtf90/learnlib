@@ -23,14 +23,15 @@ import java.util.List;
 import de.learnlib.query.AdaptiveQuery;
 import net.automatalib.word.Word;
 import net.automatalib.word.WordBuilder;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class AdaptiveTestQuery<I, O> implements AdaptiveQuery<I, O> {
+class AdaptiveTestQuery<I, O> implements AdaptiveQuery<I, O> {
 
     private final Deque<Deque<I>> inputs;
     private final List<WordBuilder<O>> outputs;
 
     @SafeVarargs
-    public AdaptiveTestQuery(Word<I>... inputs) {
+    AdaptiveTestQuery(Word<I>... inputs) {
         this.inputs = new ArrayDeque<>(inputs.length);
         this.outputs = new ArrayList<>(inputs.length);
 
@@ -43,19 +44,17 @@ public class AdaptiveTestQuery<I, O> implements AdaptiveQuery<I, O> {
 
     @Override
     public I getInput() {
-        final Deque<I> peek = inputs.peek();
-        assert peek != null;
-        final I result = peek.peek();
-        assert result != null;
+        @SuppressWarnings("nullness") // this package-private class is always initialized with non-empty inputs
+        final @NonNull I result = inputs.peek().peek();
         return result;
     }
 
     @Override
     public Response processOutput(O out) {
-        final Deque<I> input = this.inputs.peekFirst();
+        @SuppressWarnings("nullness") // this package-private class is always initialized with non-empty inputs
+        final @NonNull Deque<I> input = this.inputs.peek();
         final WordBuilder<O> output = this.outputs.get(this.outputs.size() - 1);
 
-        assert input != null;
         input.removeFirst();
         output.add(out);
 
@@ -65,8 +64,8 @@ public class AdaptiveTestQuery<I, O> implements AdaptiveQuery<I, O> {
             if (this.inputs.isEmpty()) {
                 return Response.FINISHED;
             } else {
-                final Deque<I> peek = this.inputs.peek();
-                assert peek != null;
+                @SuppressWarnings("nullness") // false positive https://github.com/typetools/checker-framework/issues/399
+                final @NonNull Deque<I> peek = this.inputs.peek();
                 this.outputs.add(new WordBuilder<>(peek.size()));
                 return Response.RESET;
             }
@@ -75,7 +74,7 @@ public class AdaptiveTestQuery<I, O> implements AdaptiveQuery<I, O> {
         return Response.SYMBOL;
     }
 
-    public List<WordBuilder<O>> getOutputs() {
+    List<WordBuilder<O>> getOutputs() {
         return outputs;
     }
 }

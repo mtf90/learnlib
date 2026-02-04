@@ -68,10 +68,11 @@ final class MasterQuery<I, O> extends AbstractQuery<I, Word<O>> {
 
     @Override
     public void answer(Word<O> output) {
-        assert slaves != null;
-        this.answer = truncateOutput(output);
-        for (Query<I, Word<O>> slave : slaves) {
-            answerSlave(slave);
+        if (slaves != null) {
+            this.answer = truncateOutput(output);
+            for (Query<I, Word<O>> slave : slaves) {
+                answerSlave(slave);
+            }
         }
     }
 

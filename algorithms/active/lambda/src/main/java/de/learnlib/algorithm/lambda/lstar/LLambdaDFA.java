@@ -27,6 +27,7 @@ import net.automatalib.automaton.fsa.DFA;
 import net.automatalib.automaton.fsa.impl.CompactDFA;
 import net.automatalib.common.util.mapping.MutableMapping;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class LLambdaDFA<I> extends AbstractLLambda<DFA<?, I>, I, Boolean> implements DFALearner<I> {
 
@@ -92,7 +93,9 @@ public class LLambdaDFA<I> extends AbstractLLambda<DFA<?, I>, I, Boolean> implem
 
     @Override
     protected List<Boolean> rowForState(Word<I> input) {
-        return hypStateMap.get(hypothesis.getState(input));
+        @SuppressWarnings("nullness") // our hypotheses are always total
+        @NonNull Integer state = hypothesis.getState(input);
+        return hypStateMap.get(state);
     }
 
     @Override

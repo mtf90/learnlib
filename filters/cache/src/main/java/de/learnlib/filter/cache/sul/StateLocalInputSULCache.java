@@ -27,6 +27,7 @@ import de.learnlib.sul.StateLocalInputSUL;
 import net.automatalib.incremental.mealy.IncrementalMealyBuilder;
 import net.automatalib.ts.output.MealyTransitionSystem;
 import net.automatalib.word.WordBuilder;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A {@link SULCache} that additionally caches the {@link StateLocalInputSUL#currentlyEnabledInputs() currently enabled
@@ -98,13 +99,14 @@ public class StateLocalInputSULCache<I, O> extends AbstractSULCache<I, O, StateL
             super.updateCache(input, output);
 
             final int prefixLength = input.size() - this.inputsTrace.size();
-            S iter = mealyTs.getSuccessor(initialState, input.subList(0, prefixLength));
-            assert iter != null;
+            @SuppressWarnings("nullness") // previous update inserted the whole trace
+            @NonNull S iter = mealyTs.getState(input.subList(0, prefixLength));
 
             for (int i = 0; i < this.inputsTrace.size(); i++) {
-                iter = mealyTs.getSuccessor(iter, input.get(i + prefixLength));
-                assert iter != null;
-                this.enabledInputCache.put(iter, this.inputsTrace.get(i));
+                @SuppressWarnings("nullness") // previous update inserted the whole trace
+                @NonNull S succ = mealyTs.getSuccessor(iter, input.get(i + prefixLength));
+                this.enabledInputCache.put(succ, this.inputsTrace.get(i));
+                iter = succ;
             }
 
             inputsTrace.clear();
@@ -140,9 +142,8 @@ public class StateLocalInputSULCache<I, O> extends AbstractSULCache<I, O, StateL
         @SuppressWarnings("unchecked")
         public void resume(StateLocalInputSULCacheState<I, O> state) {
             super.resume(state);
-            S init = super.mealyTs.getInitialState();
-            assert init != null;
-            this.initialState = init;
+            // we verified non-nullability at construction
+            this.initialState = (@NonNull S) super.mealyTs.getInitialState();
             this.enabledInputCache = (Map<S, Collection<I>>) state.enabledInputCache;
         }
     }

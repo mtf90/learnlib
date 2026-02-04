@@ -23,6 +23,7 @@ import de.learnlib.algorithm.lambda.ttt.pt.PrefixTree;
 import net.automatalib.alphabet.Alphabet;
 import net.automatalib.automaton.transducer.MealyMachine;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 class HypothesisMealy<I, O> implements MealyMachine<DTLeaf<I, Word<O>>, I, MealyTransition<I, O>, O> {
 
@@ -52,12 +53,9 @@ class HypothesisMealy<I, O> implements MealyMachine<DTLeaf<I, Word<O>>, I, Mealy
     @Override
     public DTLeaf<I, Word<O>> getSuccessor(MealyTransition<I, O> o) {
         PTNode<I, Word<O>> u = o.source.getShortPrefixes().get(0);
-        assert u != null;
-        PTNode<I, Word<O>> ua = u.succ(o.input);
-        assert ua != null;
-        DTLeaf<I, Word<O>> dst = ua.state();
-        assert dst != null;
-        return dst;
+        @SuppressWarnings("nullness") // the node has full information for short prefix successors
+        @NonNull PTNode<I, Word<O>> ua = u.succ(o.input);
+        return ua.state();
     }
 
     @Override

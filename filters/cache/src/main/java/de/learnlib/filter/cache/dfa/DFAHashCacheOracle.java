@@ -107,11 +107,11 @@ public class DFAHashCacheOracle<I> implements DFALearningCacheOracle<I>, Resumab
 
         private final Map<Word<I>, Boolean> cache;
 
-        public DFAHashCacheOracleState(Map<Word<I>, Boolean> cache) {
+        DFAHashCacheOracleState(Map<Word<I>, Boolean> cache) {
             this.cache = cache;
         }
 
-        public Map<Word<I>, Boolean> getCache() {
+        Map<Word<I>, Boolean> getCache() {
             return cache;
         }
     }

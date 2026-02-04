@@ -38,6 +38,7 @@ import net.automatalib.symbol.time.TimeoutSymbol;
 import net.automatalib.util.automaton.cover.MMLTCover;
 import net.automatalib.word.Word;
 import net.automatalib.word.WordBuilder;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,8 +148,8 @@ public class ResetSearchEQOracle<I, O> implements MMLTEquivalenceOracle<I, O> {
 
         for (Word<TimedInput<I>> prefix : chosenPrefixes) {
             // Retrieve looping symbols:
-            State<S, O> state = hypothesis.getSemantics().getState(prefix);
-            assert state != null;
+            @SuppressWarnings("nullness") // state cover prefixes ensure to reach actual states
+            @NonNull State<S, O> state = hypothesis.getSemantics().getState(prefix);
             S sourceLoc = state.getLocation();
             List<TimedInput<I>> loopingInputs = getLoopingSymbols(sourceLoc, inputs, hypothesis);
             if (loopingInputs.isEmpty()) {

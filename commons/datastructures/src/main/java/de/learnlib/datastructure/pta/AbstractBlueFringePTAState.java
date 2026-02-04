@@ -60,11 +60,7 @@ public abstract class AbstractBlueFringePTAState<S extends AbstractBlueFringePTA
     }
 
     public PTATransition<S> makeBlue() {
-        if (!isWhite()) {
-            throw new IllegalStateException();
-        }
-        assert parent != null;
-        if (!parent.isRed()) {
+        if (!isWhite() || parent == null || !parent.isRed()) {
             throw new IllegalStateException();
         }
 

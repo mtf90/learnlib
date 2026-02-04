@@ -139,12 +139,13 @@ public class RandomWpMethodEQOracle<I, O> implements MMLTEquivalenceOracle<I, O>
         } else {
             // Identify configuration reached by prefix:
             State<S, O> currentConfig = hypothesis.getSemantics().getState(wb);
-            assert currentConfig != null;
-            Integer state = hypSemModel.getStateForConfiguration(currentConfig, true);
-            List<Word<TimedInput<I>>> localSuffixes = Automata.stateCharacterizingSet(hypSemModel, alphabet, state);
+            if (currentConfig != null) {
+                Integer state = hypSemModel.getStateForConfiguration(currentConfig, true);
+                List<Word<TimedInput<I>>> localSuffixes = Automata.stateCharacterizingSet(hypSemModel, alphabet, state);
 
-            if (!localSuffixes.isEmpty()) {
-                suffix = localSuffixes.get(random.nextInt(localSuffixes.size()));
+                if (!localSuffixes.isEmpty()) {
+                    suffix = localSuffixes.get(random.nextInt(localSuffixes.size()));
+                }
             }
         }
 

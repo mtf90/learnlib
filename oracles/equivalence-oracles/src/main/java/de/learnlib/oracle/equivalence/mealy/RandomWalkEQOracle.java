@@ -107,32 +107,22 @@ public class RandomWalkEQOracle<I, O> implements MealyEquivalenceOracle<I, O> {
             return null;
         }
 
+        S init = hypothesis.getInitialState();
+
+        if (init == null) {
+            LOGGER.warn(Category.COUNTEREXAMPLE, "Hypothesis has no initial state; no counterexample can be found!");
+            return null;
+        }
+
         List<? extends I> choices = CollectionUtil.randomAccessList(inputs);
         int bound = choices.size();
-        S cur = hypothesis.getInitialState();
+        S cur = init;
         WordBuilder<I> wbIn = new WordBuilder<>();
         WordBuilder<O> wbOut = new WordBuilder<>();
 
-        boolean first = true;
         sul.pre();
         try {
             while (steps < maxSteps) {
-
-                if (first) {
-                    first = false;
-                } else {
-                    // restart?
-                    double restart = random.nextDouble();
-                    if (restart < restartProbability) {
-                        sul.post();
-                        sul.pre();
-                        cur = hypothesis.getInitialState();
-                        wbIn.clear();
-                        wbOut.clear();
-                        first = true;
-                    }
-                }
-
                 // step
                 steps++;
                 I in = choices.get(random.nextInt(bound));
@@ -140,7 +130,6 @@ public class RandomWalkEQOracle<I, O> implements MealyEquivalenceOracle<I, O> {
 
                 outSul = sul.step(in);
 
-                assert cur != null;
                 O outHyp = hypothesis.getTransitionProperty(cur, in);
                 wbIn.add(in);
                 wbOut.add(outSul);
@@ -152,6 +141,15 @@ public class RandomWalkEQOracle<I, O> implements MealyEquivalenceOracle<I, O> {
                     return ce;
                 }
                 cur = hypothesis.getSuccessor(cur, in);
+
+                // restart?
+                if (cur == null || random.nextDouble() < restartProbability) {
+                    sul.post();
+                    sul.pre();
+                    cur = init;
+                    wbIn.clear();
+                    wbOut.clear();
+                }
             }
             return null;
         } finally {

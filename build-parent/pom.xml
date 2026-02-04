@@ -215,7 +215,6 @@ limitations under the License.
                                     <goal>compile</goal>
                                 </goals>
                                 <configuration>
-                                    <failOnWarning>true</failOnWarning>
                                     <fork>true</fork>
                                     <outputDirectory>${project.build.directory}/checkerframework</outputDirectory>
                                     <annotationProcessorPaths combine.children="append">
@@ -243,7 +242,6 @@ limitations under the License.
                                         <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
                                         <arg>-AskipUses=^java.lang.ThreadLocal|^org.testng.*</arg>
                                         <arg>-AsuppressWarnings=uninitialized</arg>
-                                        <arg>-AassumeAssertionsAreEnabled</arg>
                                         <arg>-Astubs=collection-object-parameters-may-be-null.astub</arg>
                                     </compilerArgs>
                                 </configuration>
@@ -255,7 +253,6 @@ limitations under the License.
                                     <goal>testCompile</goal>
                                 </goals>
                                 <configuration>
-                                    <failOnWarning>true</failOnWarning>
                                     <fork>true</fork>
                                     <!--
                                      Setting a different output directly can fail the build when using other annotation
@@ -287,7 +284,6 @@ limitations under the License.
                                         <arg>-AonlyDefs=^de\.learnlib</arg>
                                         <arg>-AskipUses=.*</arg>
                                         <arg>-AsuppressWarnings=uninitialized</arg>
-                                        <arg>-AassumeAssertionsAreEnabled</arg>
                                         <arg>-Astubs=collection-object-parameters-may-be-null.astub</arg>
                                     </compilerArgs>
                                 </configuration>

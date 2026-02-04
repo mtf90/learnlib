@@ -28,6 +28,7 @@ import net.automatalib.automaton.transducer.MealyMachine;
 import net.automatalib.automaton.transducer.impl.CompactMealy;
 import net.automatalib.common.util.mapping.MutableMapping;
 import net.automatalib.word.Word;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class LLambdaMealy<I, O> extends AbstractLLambda<MealyMachine<?, I, ?, O>, I, Word<O>>
         implements MealyLearner<I, O> {
@@ -50,7 +51,9 @@ public class LLambdaMealy<I, O> extends AbstractLLambda<MealyMachine<?, I, ?, O>
 
     @Override
     protected List<Word<O>> rowForState(Word<I> input) {
-        return hypStateMap.get(hypothesis.getState(input));
+        @SuppressWarnings("nullness") // our hypotheses are always total
+        @NonNull Integer state = hypothesis.getState(input);
+        return hypStateMap.get(state);
     }
 
     @Override

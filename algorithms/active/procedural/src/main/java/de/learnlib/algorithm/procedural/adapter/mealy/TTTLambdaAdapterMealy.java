@@ -42,7 +42,6 @@ public class TTTLambdaAdapterMealy<I, O> extends TTTLambdaMealy<I, O> implements
     @Override
     public Word<I> transformAccessSequence(Word<I> word) {
         DTLeaf<I, Word<O>> state = super.getState(word);
-        assert state != null;
 
         final List<PTNode<I, Word<O>>> shortPrefixes = state.getShortPrefixes();
         assert shortPrefixes.size() == 1;

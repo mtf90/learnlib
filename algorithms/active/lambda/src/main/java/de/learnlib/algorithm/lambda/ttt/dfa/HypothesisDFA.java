@@ -21,6 +21,7 @@ import de.learnlib.algorithm.lambda.ttt.dt.DTLeaf;
 import de.learnlib.algorithm.lambda.ttt.pt.PTNode;
 import de.learnlib.algorithm.lambda.ttt.pt.PrefixTree;
 import net.automatalib.automaton.fsa.DFA;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 class HypothesisDFA<I> implements DFA<DTLeaf<I, Boolean>, I> {
 
@@ -35,12 +36,9 @@ class HypothesisDFA<I> implements DFA<DTLeaf<I, Boolean>, I> {
     @Override
     public DTLeaf<I, Boolean> getTransition(DTLeaf<I, Boolean> s, I a) {
         PTNode<I, Boolean> u = s.getShortPrefixes().get(0);
-        assert u != null;
-        PTNode<I, Boolean> ua = u.succ(a);
-        assert ua != null;
-        DTLeaf<I, Boolean> dst = ua.state();
-        assert dst != null;
-        return dst;
+        @SuppressWarnings("nullness") // the node has full information for short prefix successors
+        @NonNull PTNode<I, Boolean> ua = u.succ(a);
+        return ua.state();
     }
 
     @Override

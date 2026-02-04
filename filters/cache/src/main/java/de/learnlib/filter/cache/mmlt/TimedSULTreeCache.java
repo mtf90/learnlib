@@ -102,19 +102,21 @@ public class TimedSULTreeCache<I, O> implements TimedSUL<I, O>, MMLTLearningCach
         if (!this.cacheMiss) {
             // Move to closest state in cache:
             while (remaining > 0) {
-                if (!currentState.hasTimeChild()) {
+                CacheTreeNode<I, O> curr = currentState;
+
+                if (!curr.hasTimeChild()) {
                     break; // cache miss
                 }
 
-                if (currentState.getTimeout() > remaining) {
+                if (curr.getTimeout() > remaining) {
                     // Split current timeout:
-                    this.currentState = this.currentState.splitTimeout(remaining, this.silentOutput);
+                    this.currentState = curr.splitTimeout(remaining, this.silentOutput);
                     return null; // no timer in this state
                 }
 
-                TimedOutput<O> currentOutput = currentState.getTimeoutOutput();
-                remaining -= currentState.getTimeout();
-                this.currentState = this.currentState.getTimeoutChild();
+                TimedOutput<O> currentOutput = curr.getTimeoutOutput();
+                remaining -= curr.getTimeout();
+                this.currentState = curr.getTimeoutChild();
 
                 if (!currentOutput.equals(this.silentOutput)) {
                     // Found valid timeout:

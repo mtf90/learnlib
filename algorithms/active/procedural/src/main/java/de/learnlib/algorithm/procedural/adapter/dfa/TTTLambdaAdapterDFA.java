@@ -40,7 +40,6 @@ public class TTTLambdaAdapterDFA<I> extends TTTLambdaDFA<I> implements AccessSeq
     @Override
     public Word<I> transformAccessSequence(Word<I> word) {
         DTLeaf<I, Boolean> state = super.getState(word);
-        assert state != null;
 
         final List<PTNode<I, Boolean>> shortPrefixes = state.getShortPrefixes();
         assert shortPrefixes.size() == 1;

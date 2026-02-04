@@ -497,12 +497,10 @@ public final class GenericObservationTable<I, D> implements MutableObservationTa
     @Override
     public Word<I> transformAccessSequence(Word<I> word) {
         Row<I> current = shortPrefixRows.get(0);
-        assert current != null;
 
         for (I sym : word) {
             current = getRowSuccessor(current, sym);
             current = canonicalRows.get(current.getRowContentId());
-            assert current != null;
         }
 
         return current.getLabel();

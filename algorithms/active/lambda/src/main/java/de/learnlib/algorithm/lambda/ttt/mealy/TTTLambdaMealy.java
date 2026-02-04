@@ -52,8 +52,9 @@ public class TTTLambdaMealy<I, O> extends AbstractTTTLambda<MealyMachine<?, I, ?
         return ceLength - 1;
     }
 
+    @SuppressWarnings("nullness") // our hypotheses are always total
     @Override
-    protected @Nullable DTLeaf<I, Word<O>> getState(Word<I> prefix) {
+    protected DTLeaf<I, Word<O>> getState(Word<I> prefix) {
         return hypothesis.getState(prefix);
     }
 

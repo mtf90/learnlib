@@ -155,7 +155,7 @@ public class AdaptiveQueryCache<I, O> implements AdaptiveMembershipOracle<I, O>,
     @Override
     public void resume(AdaptiveQueryCacheState<I, O> state) {
         this.cache = state.getCache();
-        this.init = Objects.requireNonNull(this.cache.getInitialState());
+        this.init = (@NonNull Integer) this.cache.getInitialState();
     }
 
     @Override
