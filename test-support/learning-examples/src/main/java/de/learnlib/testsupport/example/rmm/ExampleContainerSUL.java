@@ -10,7 +10,6 @@ import gov.nasa.jpf.constraints.api.Expression;
 import gov.nasa.jpf.constraints.types.BuiltinTypes;
 import gov.nasa.jpf.constraints.util.ExpressionUtil;
 import net.automatalib.alphabet.impl.Alphabets;
-import net.automatalib.automaton.ra.Assignment;
 import net.automatalib.automaton.ra.OutputAssignment;
 import net.automatalib.automaton.ra.RegisterMealyMachine;
 import net.automatalib.automaton.ra.impl.CompactRMM;
@@ -77,18 +76,17 @@ public class ExampleContainerSUL
         VarMapping<Parameter<?>, SymbolicDataValue<?>> constantMapping = new VarMapping<>(p1, c1);
         VarMapping<Parameter<?>, SymbolicDataValue<?>> outputMapping = new VarMapping<>(p1, r1);
 
-        Assignment copyAssign = new Assignment(copyMapping);
-        Assignment storeAssign = new Assignment(storeMapping);
-        OutputAssignment constantAssign = new OutputAssignment(constantMapping);
-        OutputAssignment outputAssignment = new OutputAssignment(outputMapping);
+        OutputAssignment storeAssign = new OutputAssignment(storeMapping);
+        OutputAssignment constantOutput = new OutputAssignment(new VarMapping<>(), constantMapping);
+        OutputAssignment outputAssignment = new OutputAssignment(copyMapping, outputMapping);
 
         // initial location
-        rmm.addTransition(l0, I_GET, rmm.createTransition(l0, trueGuard, new Assignment(), constantAssign, O_GET));
-        rmm.addTransition(l0, I_PUT, rmm.createTransition(l1, trueGuard, storeAssign, new OutputAssignment(), O_V));
+        rmm.addTransition(l0, I_GET, rmm.createTransition(l0, trueGuard, constantOutput, O_GET));
+        rmm.addTransition(l0, I_PUT, rmm.createTransition(l1, trueGuard, storeAssign, O_V));
 
         // stored location
-        rmm.addTransition(l1, I_GET, rmm.createTransition(l1, trueGuard, copyAssign, outputAssignment, O_GET));
-        rmm.addTransition(l1, I_PUT, rmm.createTransition(l1, trueGuard, storeAssign, new OutputAssignment(), O_V));
+        rmm.addTransition(l1, I_GET, rmm.createTransition(l1, trueGuard, outputAssignment, O_GET));
+        rmm.addTransition(l1, I_PUT, rmm.createTransition(l1, trueGuard, storeAssign, O_V));
 
         return rmm;
     }
