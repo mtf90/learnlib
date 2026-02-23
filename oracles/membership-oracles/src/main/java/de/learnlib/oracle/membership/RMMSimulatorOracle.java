@@ -24,7 +24,7 @@ public class RMMSimulatorOracle<I extends ParameterizedSymbol, O extends Paramet
 
     @Override
     public void processQueries(Collection<? extends Query<SymbolInstance<I>, Word<SymbolInstance<O>>>> queries) {
-        final SuffixOutput<SymbolInstance<I>, Word<SymbolInstance<O>>> output = hypothesis.asOutput(mapping);
+        final SuffixOutput<SymbolInstance<I>, Word<SymbolInstance<O>>> output = hypothesis.asTransducer(mapping);
         for (Query<SymbolInstance<I>, Word<SymbolInstance<O>>> q : queries) {
             q.answer(output.computeSuffixOutput(q.getPrefix(), q.getSuffix()));
         }

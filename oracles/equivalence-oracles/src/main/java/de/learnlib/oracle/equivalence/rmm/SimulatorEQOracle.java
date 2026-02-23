@@ -38,6 +38,6 @@ public class SimulatorEQOracle<I extends ParameterizedSymbol, O extends Paramete
             return null;
         }
 
-        return new DefaultQuery<>(sepWord, this.ra.asOutput(this.generatorMapping).computeOutput(sepWord));
+        return new DefaultQuery<>(sepWord, this.ra.asTransducer(this.generatorMapping).computeOutput(sepWord));
     }
 }
