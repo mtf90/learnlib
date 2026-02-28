@@ -62,6 +62,7 @@ public final class ExampleLogin
         Integer l0 = ra.addInitialState(false);
         Integer l1 = ra.addState(false);
         Integer l2 = ra.addState(true);
+        Integer sink = ra.addState(false);
 
         // registers and parameters
         RegisterGenerator rgen = new RegisterGenerator();
@@ -84,15 +85,22 @@ public final class ExampleLogin
 
         Assignment copyAssign = new Assignment(copyMapping);
         Assignment storeAssign = new Assignment(storeMapping);
+        Assignment emptyAssign = new Assignment();
 
         // initial location
         ra.addTransition(l0, REGISTER, ra.createTransition(l1, trueGuard, storeAssign));
+        ra.addTransition(l0, LOGIN, ra.createTransition(sink, trueGuard, emptyAssign));
+        ra.addTransition(l0, LOGOUT, ra.createTransition(sink, trueGuard, emptyAssign));
 
         // reg. location
+        ra.addTransition(l1, REGISTER, ra.createTransition(sink, trueGuard, emptyAssign));
         ra.addTransition(l1, LOGIN, ra.createTransition(l2, condition, copyAssign));
         ra.addTransition(l1, LOGIN, ra.createTransition(l1, elseCond, copyAssign));
+        ra.addTransition(l1, LOGOUT, ra.createTransition(sink, trueGuard, emptyAssign));
 
         // login location
+        ra.addTransition(l2, REGISTER, ra.createTransition(sink, trueGuard, emptyAssign));
+        ra.addTransition(l2, LOGIN, ra.createTransition(sink, trueGuard, emptyAssign));
         ra.addTransition(l2, LOGOUT, ra.createTransition(l1, trueGuard, copyAssign));
 
         return ra;

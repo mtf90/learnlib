@@ -25,6 +25,7 @@ import net.automatalib.automaton.ra.RegisterAutomaton;
 import net.automatalib.symbol.data.ParameterizedSymbol;
 import net.automatalib.symbol.data.SymbolInstance;
 import net.automatalib.util.automaton.equivalence.RAEquivalence;
+import net.automatalib.util.automaton.equivalence.RAEquivalence2;
 
 public class RALearnerITCase<I extends ParameterizedSymbol>
         extends AbstractLearnerVariantITCase<I, SymbolInstance<I>, Boolean, RegisterAutomaton<?, I, ?>> {
@@ -43,9 +44,9 @@ public class RALearnerITCase<I extends ParameterizedSymbol>
 
     @Override
     protected boolean testEquivalence(RegisterAutomaton<?, I, ?> hypothesis) {
-        return RAEquivalence.findSeparatingWord(this.example.getReferenceAutomaton(),
-                                                hypothesis,
-                                                this.example.getAlphabet(),
-                                                solver) == null;
+        return RAEquivalence2.findSeparatingWord(this.example.getReferenceAutomaton(),
+                                                 hypothesis,
+                                                 this.example.getAlphabet(),
+                                                 solver) == null;
     }
 }

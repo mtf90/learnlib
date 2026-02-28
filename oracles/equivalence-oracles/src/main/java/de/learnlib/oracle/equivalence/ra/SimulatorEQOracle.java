@@ -8,6 +8,7 @@ import net.automatalib.automaton.ra.RegisterAutomaton;
 import net.automatalib.symbol.data.ParameterizedSymbol;
 import net.automatalib.symbol.data.SymbolInstance;
 import net.automatalib.util.automaton.equivalence.RAEquivalence;
+import net.automatalib.util.automaton.equivalence.RAEquivalence2;
 import net.automatalib.word.Word;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -26,7 +27,7 @@ public class SimulatorEQOracle<I extends ParameterizedSymbol>
     public @Nullable DefaultQuery<SymbolInstance<I>, Boolean> findCounterExample(RegisterAutomaton<?, I, ?> hypothesis,
                                                                                  Collection<? extends I> inputs) {
         final Word<SymbolInstance<I>> sepWord =
-                RAEquivalence.findSeparatingWord(this.ra, hypothesis, inputs, this.solver);
+                RAEquivalence2.findSeparatingWord(this.ra, hypothesis, inputs, this.solver);
 
         if (sepWord == null) {
             return null;

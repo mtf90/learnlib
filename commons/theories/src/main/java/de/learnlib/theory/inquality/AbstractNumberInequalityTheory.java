@@ -769,7 +769,7 @@ public abstract class AbstractNumberInequalityTheory<N extends Number & Comparab
 				GuardElement r =  iGuard.getGreaterElement();
 				assert r != null;
 				DataValue ri = (r instanceof DataValue) ? (DataValue) r :
-						new DataValue(type, (BigDecimal) val.getValue( (Variable) r));
+						new DataValue(type, val.getValue( (Variable) r));
 				Constant wm = new Constant(type.getType(), (ri.getValue()));
 				// add the constant equivalence expression to the list
 				eList.add(new NumericBooleanExpression(wm, NumericComparator.EQ, r.asExpression()));
@@ -778,7 +778,7 @@ public abstract class AbstractNumberInequalityTheory<N extends Number & Comparab
 				GuardElement l = iGuard.getSmallerElement();
 				assert l != null;
 				DataValue li = (l instanceof DataValue) ? (DataValue) l :
-						new DataValue(type, (BigDecimal) val.getValue( (Variable) l));
+						new DataValue(type, val.getValue( (Variable) l));
 				Constant wm = new Constant(type.getType(), (li.getValue()));
 				// add the constant equivalence expression to the list
 				eList.add(new NumericBooleanExpression(wm, NumericComparator.EQ, l.asExpression()));

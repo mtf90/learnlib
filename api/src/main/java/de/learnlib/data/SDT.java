@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.automatalib.automaton.ra.Util;
 import net.automatalib.data.Constants;
@@ -71,13 +72,13 @@ public class SDT {
             temp.add((DataValue) x);
         });
 
-        DataValue[] prefixValue = temp.toArray(new DataValue[] {});
-        Arrays.sort(prefixValue, (o1, o2) -> ((Comparable)o1.getValue()).compareTo(o2.getValue()));
+//        DataValue[] prefixValue = temp.toArray(new DataValue[] {});
+//        Arrays.sort(prefixValue, (o1, o2) -> ((Comparable)o1.getValue()).compareTo(o2.getValue()));
 
         Set<Register> registers = new LinkedHashSet<>();
         SymbolicDataValueGenerator.RegisterGenerator regGen =
                 new SymbolicDataValueGenerator.RegisterGenerator();
-        for (DataValue dv : prefixValue) {
+        for (DataValue dv : temp) {
             registers.add(regGen.next(dv.getDataType()));
         }
 
