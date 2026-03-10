@@ -134,7 +134,7 @@ public final class LearningExamples {
         return Arrays.asList(new ExampleLLambda(),
                              new ExampleLogin(),
                              new ExamplePadlock(),
-//                             new de.learnlib.testsupport.example.ra.ExampleStack(),
+                             new de.learnlib.testsupport.example.ra.ExampleStack(),
                              new ExampleMixedIO(solver));
     }
 

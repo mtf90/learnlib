@@ -73,7 +73,7 @@ public class ExampleMixedIO extends DefaultLearningExample<InputSymbol, Boolean,
         ra.addTransition(l0, I_FRAME, ra.createTransition(l1, trueGuard, storeAssign));
 
         ra.addTransition(l1, I_FRAME, ra.createTransition(l1, okGuard, storeAssign));
-        ra.addTransition(l1, I_FRAME, ra.createTransition(l2, errorGuard, storeAssign));
+        ra.addTransition(l1, I_FRAME, ra.createTransition(l2, errorGuard, noAssign));
 
         ra.addTransition(l2, I_FRAME, ra.createTransition(l2, trueGuard, noAssign));
 
