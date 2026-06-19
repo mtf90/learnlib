@@ -148,4 +148,7 @@ public abstract class AbstractBlueFringePTAState<S extends AbstractBlueFringePTA
         super.setSuccessor(index, successor, alphabetSize);
     }
 
+    public @Nullable S getParent() {
+        return parent;
+    }
 }
