@@ -157,7 +157,7 @@ public class RaLambda<I extends ParameterizedSymbol>
         ces.addAll(candidateCEs);
         while(!foundce && !ces.isEmpty()) {
         	ce = ces.poll();
-        	boolean hypce = hyp.asAcceptor().accepts(ce.getInput());
+        	boolean hypce = hyp.getSemantics().accepts(ce.getInput());
         	boolean sulce = ce.getOutput();
             //System.out.println("ce: " + ce + " - " + sulce + " vs. " + hypce);
         	foundce = hypce != sulce;

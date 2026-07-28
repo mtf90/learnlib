@@ -132,7 +132,7 @@ public class RaStar<I extends ParameterizedSymbol>
         DefaultQuery<SymbolInstance<I>, Boolean> ce = counterexamples.peek();
 
         // check if ce still is a counterexample ...
-        boolean hypce = hyp.asAcceptor().accepts(ce.getInput());
+        boolean hypce = hyp.getSemantics().accepts(ce.getInput());
         boolean sulce = ce.getOutput();
         if (hypce == sulce) {
             LOGGER.info(Category.EVENT, "word is not a counterexample: {} - {}", ce, sulce);
@@ -171,7 +171,7 @@ public class RaStar<I extends ParameterizedSymbol>
 
         @Override
         public void processQueries(Collection<? extends Query<SymbolInstance<I>, Boolean>> queries) {
-            final DeterministicAcceptorTS<?, SymbolInstance<I>> acceptor = hypothesis.asAcceptor();
+            final DeterministicAcceptorTS<?, SymbolInstance<I>> acceptor = hypothesis.getSemantics();
             for (Query<SymbolInstance<I>, Boolean> q : queries) {
                 q.answer(acceptor.accepts(q.getInput()));
             }

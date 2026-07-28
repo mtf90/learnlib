@@ -79,7 +79,7 @@ public class MTOConfiguration<I extends ParameterizedSymbol> implements Configur
 
         @Override
         public void processQueries(Collection<? extends Query<SymbolInstance<I>, Boolean>> queries) {
-            final DeterministicAcceptorTS<?, SymbolInstance<I>> acceptor = hypothesis.asAcceptor();
+            final DeterministicAcceptorTS<?, SymbolInstance<I>> acceptor = hypothesis.getSemantics();
             for (Query<SymbolInstance<I>, Boolean> q : queries) {
                 q.answer(acceptor.computeSuffixOutput(q.getPrefix(), q.getSuffix()));
             }

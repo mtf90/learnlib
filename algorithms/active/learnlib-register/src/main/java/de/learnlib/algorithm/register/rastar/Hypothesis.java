@@ -70,7 +70,7 @@ public class Hypothesis<I extends ParameterizedSymbol> extends CompactRA<I>
 
     @Override
     public Word<SymbolInstance<I>> transformAccessSequence(Word<SymbolInstance<I>> word) {
-        Integer loc = asAcceptor().getState(word).getLocation();
+        Integer loc = getSemantics().getState(word).getLocation();
         return accessSequences.get(loc);
     }
 
@@ -87,7 +87,7 @@ public class Hypothesis<I extends ParameterizedSymbol> extends CompactRA<I>
 
     @Override
     public Word<SymbolInstance<I>> transformTransitionSequence(Word<SymbolInstance<I>> word) {
-        State<Integer> state = asAcceptor().getState(word.prefix(-1));
+        State<Integer> state = getSemantics().getState(word.prefix(-1));
 
         if (state == null) {
             return null;

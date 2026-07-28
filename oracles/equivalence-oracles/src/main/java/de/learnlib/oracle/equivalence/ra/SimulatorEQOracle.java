@@ -32,6 +32,6 @@ public class SimulatorEQOracle<I extends ParameterizedSymbol>
             return null;
         }
 
-        return new DefaultQuery<>(sepWord, this.ra.asAcceptor().accepts(sepWord));
+        return new DefaultQuery<>(sepWord, this.ra.getSemantics().accepts(sepWord));
     }
 }

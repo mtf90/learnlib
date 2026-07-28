@@ -114,7 +114,7 @@ public class RaDT<I extends ParameterizedSymbol>
         DefaultQuery<SymbolInstance<I>, Boolean> ce = counterexamples.peek();
 
         // check if ce still is a counterexample ...
-        boolean hypce = hyp.asAcceptor().accepts(ce.getInput());
+        boolean hypce = hyp.getSemantics().accepts(ce.getInput());
         boolean sulce = ce.getOutput();
         if (hypce == sulce) {
             LOGGER.info(Category.EVENT, "word is not a counterexample: {} - {}", ce, sulce);

@@ -271,7 +271,7 @@ public class DTLeaf<I extends ParameterizedSymbol> extends DTNode implements Loc
             assert prefixBranching.getBranches().size() == accessBranching.getBranches().size();
 
             for (Word<SymbolInstance<I>> p : prefixBranching.getBranches().keySet()) {
-                if (dt.getIoMode() && ((input ^ !isInput(ps)) || hyp.asAcceptor().getState(p) == null)) {
+                if (dt.getIoMode() && ((input ^ !isInput(ps)) || hyp.getSemantics().getState(p) == null)) {
                     dt.getSink().addPrefix(p);
                     continue;
                 }
